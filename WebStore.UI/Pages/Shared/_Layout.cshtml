@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] : Demo Web Store UI by germistry</title>
+    <environment include="Development">
+        <link href="~/lib/bulma-0.9.1/bulma/css/bulma.css" rel="stylesheet" />
+    </environment>
+    <environment include="Production">
+        <link href="~/lib/bulma-0.9.1/bulma/css/bulma.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true"/>
+    </environment>
+</head>
+<body>
+    
+    <a asp-area="" asp-page="/Admin/Index">Admin</a>
+    
+    @RenderBody()
+        
+    
+
+    <environment include="Development">
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment include="Production">
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
