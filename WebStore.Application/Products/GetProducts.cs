@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebStore.Database;
 
-namespace WebStore.Application.ProductsAdmin
+namespace WebStore.Application.Products
 {
     public class GetProducts
     {

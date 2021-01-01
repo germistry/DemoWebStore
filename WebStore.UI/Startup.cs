@@ -28,6 +28,13 @@ namespace WebStore.UI
             services.AddRazorPages();
             services.AddDbContext<ApplicationDBContext>(options => options
                     .UseSqlServer(Configuration["DefaultConnection"]));
+
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = "WebStoreCart";
+                options.Cookie.MaxAge = TimeSpan.FromDays(365);
+            });
+            
             //services.AddMvc(options =>
             //{
             //    options.EnableEndpointRouting = false;
@@ -53,6 +60,8 @@ namespace WebStore.UI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             //app.UseMvcWithDefaultRoute();
+
+            app.UseSession();
 
             app.UseRouting();
 

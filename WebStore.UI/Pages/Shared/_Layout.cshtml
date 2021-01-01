@@ -13,13 +13,26 @@
     </environment>
 </head>
 <body>
-    
-    <a asp-area="" asp-page="/Admin/Index">Admin</a>
-    
-    @RenderBody()
-        
-    
 
+    <h3 class="title has-text-centered">Public Website</h3>
+    <div class="container">
+        
+        <div class="columns is-3">
+            <div class="column is-3">
+                <div class="menu">
+                    <p class="menu-label">Menu</p>
+                    <ul class="menu-list">
+                        <li><a asp-page="Index">Home</a></li>
+                        <li><a asp-area="" asp-page="/Admin/Index">Admin</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="column is-9">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    
     <environment include="Development">
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
