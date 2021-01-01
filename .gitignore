@@ -9,6 +9,9 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.csproj
+*.csproj.user
+*.sln
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -338,3 +341,11 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+/WebStore.UI/wwwroot/lib/bulma-0.9.1/bulma/sass
+/WebStore.UI/wwwroot/lib/bulma-0.9.1/bulma/bulma.sass
+/WebStore.UI/wwwroot/lib/bulma-0.9.1/bulma/CHANGELOG.md
+/WebStore.UI/wwwroot/lib/bulma-0.9.1/bulma/LICENSE
+/WebStore.UI/wwwroot/lib/bulma-0.9.1/bulma/package.json
+/WebStore.UI/wwwroot/lib/bulma-0.9.1/bulma/README.md
+/WebStore.UI/appsettings.json
