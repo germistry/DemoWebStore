@@ -1,0 +1,32 @@
+﻿@page
+@model CartModel
+@{
+
+}
+
+<div class="container">
+
+    <h2 class="title">Cart</h2>
+
+    <div class="column is-6">
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Qty</th>
+                <th>Value</th>
+                <th>Total</th>
+            </tr>
+            @foreach (var product in Model.CartList)
+            {
+            <tr>
+                <td>@product.StockId</td>
+                <td>@product.Name</td>
+                <td>@product.Qty</td>
+                <td>@product.Value</td>
+                <td></td>
+            </tr>
+            }
+        </table>
+    </div>
+</div>

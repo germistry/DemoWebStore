@@ -25,7 +25,7 @@ namespace WebStore.Application.Products
             {
                 Name = x.Name,
                 Description = x.Description,
-                Value = x.Value,
+                Value = $"$ {x.Value:N2}",
 
                 Stock = x.Stock.Select(y => new StockViewModel 
                 { 
@@ -40,7 +40,7 @@ namespace WebStore.Application.Products
         {
             public string Name { get; set; }
             public string Description { get; set; }
-            public decimal Value { get; set; }
+            public string Value { get; set; }
             public IEnumerable<StockViewModel> Stock { get; set; }
         }
 

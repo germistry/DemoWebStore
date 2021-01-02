@@ -17,7 +17,7 @@
                     <label class="label">Price</label>
                 </div>
                 <div class="field-body">
-                    <label class="label is-large">$ @Model.Product.Value</label>
+                    <label class="label is-large">@Model.Product.Value</label>
                 </div>
             </div>
             <form method="post">
@@ -29,7 +29,7 @@
                         <div class="field is-narrow">
                             <div class="control">
                                 <div class="select is-fullwidth">
-                                    <select asp-for="ProductTest.Id">
+                                    <select asp-for="CartViewModel.StockId">
                                         @foreach (var stock in Model.Product.Stock)
                                         {
                                             <option value="@stock.Id">@stock.Description</option>
@@ -40,7 +40,30 @@
                         </div>
                     </div>
                 </div>
-                <button class="button is-success" type="submit">Submit</button>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Qty</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field is-narrow">
+                            <div class="control">
+                                <input class="input" type="text" asp-for="CartViewModel.Qty" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                    </div>
+                    <div class="field-body">
+                        <div class="field is-normal">
+                            <div class="control">
+                                <button class="button is-primary" type="submit">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
             </form>
         </div>
     </div>
