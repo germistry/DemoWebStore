@@ -5,14 +5,14 @@
 }
 
 <div class="container">
-     <table class="table">
-         <tr>
-             <th>Product</th>
-             <th>Description</th>
-             <th>Price</th>
-         </tr>
+    <table class="table">
+        <tr>
+            <th>Product</th>
+            <th>Description</th>
+            <th>Price</th>
+        </tr>
 
-        @foreach(var p in Model.Products)
+        @foreach (var p in Model.Products)
         {
             <tr>
                 <td><a asp-page="Product" asp-route-name="@p.Name.Replace(" ", "-")">@p.Name</a></td>
@@ -21,4 +21,6 @@
             </tr>
         }
     </table>
+
 </div>
+@await Component.InvokeAsync("Cart")

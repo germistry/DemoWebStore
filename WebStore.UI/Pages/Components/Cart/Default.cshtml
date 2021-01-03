@@ -1,0 +1,31 @@
+﻿@model IEnumerable<WebStore.Application.Cart.GetCart.Response>
+@{ 
+
+}
+
+<div class="container">
+
+    <h2 class="title">Big Cart</h2>
+
+    <div class="column is-6">
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Qty</th>
+                <th>Value</th>
+                <th>Total</th>
+            </tr>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.StockId</td>
+                    <td>@product.Name</td>
+                    <td>@product.Qty</td>
+                    <td>@product.Value</td>
+                    <td></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
