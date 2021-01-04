@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebStore.Domain.Models;
 
 namespace WebStore.Application.Cart
 {
@@ -20,8 +21,20 @@ namespace WebStore.Application.Cart
 
         public void Action(Request request)
         {
-            var stringObject = JsonConvert.SerializeObject(request);
+            var customerInfo = new CustomerInfo
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                EmailAddress = request.EmailAddress,
+                PhoneNumber = request.PhoneNumber,
+                Address1 = request.Address1,
+                Address2 = request.Address2,
+                City = request.City,
+                Postcode = request.Postcode
+            };
 
+            var stringObject = JsonConvert.SerializeObject(customerInfo);
+            
             _session.SetString("customer-info", stringObject);
         }
 

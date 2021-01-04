@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Stripe;
+
 using WebStore.Database;
 
 namespace WebStore.UI
@@ -29,17 +31,18 @@ namespace WebStore.UI
             services.AddDbContext<ApplicationDBContext>(options => options
                     .UseSqlServer(Configuration["DefaultConnection"]));
 
+            services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+
+            });
             services.AddSession(options =>
             {
                 options.Cookie.Name = "WebStoreCart";
                 options.Cookie.MaxAge = TimeSpan.FromDays(365);
             });
-            
-            //services.AddMvc(options =>
-            //{
-            //    options.EnableEndpointRouting = false;
-                
-            //});
+           
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
         }
         
 

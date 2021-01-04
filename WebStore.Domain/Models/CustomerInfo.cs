@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace WebStore.Domain.Models
 {
-    public class Order
+    public class CustomerInfo
     {
-        public int Id { get; set; }
-        public string OrderRef { get; set; }
-        public string StripeRef { get; set; }
-        public ICollection<OrderStock> OrderStocks { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmailAddress { get; set; }

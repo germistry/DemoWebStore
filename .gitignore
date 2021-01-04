@@ -349,3 +349,4 @@ healthchecksdb
 /WebStore.UI/wwwroot/lib/bulma-0.9.1/bulma/package.json
 /WebStore.UI/wwwroot/lib/bulma-0.9.1/bulma/README.md
 /WebStore.UI/appsettings.json
+/WebStore.UI/.env

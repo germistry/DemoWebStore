@@ -231,10 +231,25 @@ namespace WebStore.Database.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("EmailAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("OrderRef")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Postcode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StripeRef")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -242,19 +257,22 @@ namespace WebStore.Database.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("WebStore.Domain.Models.OrderProduct", b =>
+            modelBuilder.Entity("WebStore.Domain.Models.OrderStock", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("StockId")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductId", "OrderId");
+                    b.Property<int>("Qty")
+                        .HasColumnType("int");
+
+                    b.HasKey("StockId", "OrderId");
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderProducts");
+                    b.ToTable("OrderStocks");
                 });
 
             modelBuilder.Entity("WebStore.Domain.Models.Product", b =>
@@ -352,17 +370,17 @@ namespace WebStore.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebStore.Domain.Models.OrderProduct", b =>
+            modelBuilder.Entity("WebStore.Domain.Models.OrderStock", b =>
                 {
                     b.HasOne("WebStore.Domain.Models.Order", "Order")
-                        .WithMany("OrderProducts")
+                        .WithMany("OrderStocks")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebStore.Domain.Models.Product", "Product")
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("ProductId")
+                    b.HasOne("WebStore.Domain.Models.Stock", "Stock")
+                        .WithMany("OrderStocks")
+                        .HasForeignKey("StockId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
