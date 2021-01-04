@@ -1,0 +1,16 @@
+﻿@page "{orderRef}"
+@model WebStore.UI.Pages.Customer.OrderModel
+@{
+}
+<div class="container">
+    <h2 class="title">@Model.Order.OrderRef</h2>
+
+    @foreach(var product in Model.Order.Products)
+    {
+        <div>
+            @product.Name - @product.Description - @product.StockDescription - @product.Qty - @product.Value
+        </div>
+    }
+
+    <h4 class="subtitle">@Model.Order.TotalValue</h4>
+</div>
