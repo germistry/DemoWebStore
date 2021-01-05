@@ -52,10 +52,13 @@ namespace WebStore.UI.Pages.Checkout
                 Currency = "AUD",
                 Customer = customer.Id
             });
-            
+
+            var sessionId = HttpContext.Session.Id;
+
             await new CreateOrder(_context).Action(new CreateOrder.Request
             {
                 StripeRef = charge.Id,
+                SessionId = sessionId,
                 FirstName = cartOrder.CustomerInfo.FirstName,
                 LastName = cartOrder.CustomerInfo.LastName,
                 EmailAddress = cartOrder.CustomerInfo.EmailAddress,

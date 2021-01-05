@@ -18,6 +18,12 @@ namespace WebStore.Application.Orders
 
         public async Task<bool> Action(Request request)
         {
+            var stocksOnHold = _context.StocksOnHold
+                .Where(x => x.SessionId == request.SessionId)
+                .ToList();
+
+            _context.StocksOnHold.RemoveRange(stocksOnHold);
+
             var order = new Order
             {
                 OrderRef = CreateOrderRef(),
@@ -63,6 +69,7 @@ namespace WebStore.Application.Orders
         public class Request
         {
             public string StripeRef { get; set; }
+            public string SessionId { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
             public string EmailAddress { get; set; }

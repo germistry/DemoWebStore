@@ -39,7 +39,9 @@ namespace WebStore.UI
             services.AddSession(options =>
             {
                 options.Cookie.Name = "WebStoreCart";
-                options.Cookie.MaxAge = TimeSpan.FromDays(365);
+                //Set the session cookie age same as stock expiration date (see Products/GetProduct.cs
+                //to ensure stock to return is returned
+                options.Cookie.MaxAge = TimeSpan.FromMinutes(30);
             });
            
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];

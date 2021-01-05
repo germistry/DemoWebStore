@@ -17,24 +17,45 @@ namespace WebStore.Application.Products
             _context = context;
         }
 
-        public ProductViewModel Action(string name) =>
-            _context.Products
-            .Include(x => x.Stock)
-            .Where(x => x.Name == name)
-            .Select(x => new ProductViewModel
+        public async Task<ProductViewModel> Action(string name)
+        {
+            var stocksOnHold = _context.StocksOnHold
+                .Where(x => x.ExpiryDate < DateTime.Now)
+                .ToList();
+            if(stocksOnHold.Count > 0)
             {
-                Name = x.Name,
-                Description = x.Description,
-                Value = $"$ {x.Value:N2}",
+                var stocksToReturn = _context.Stock
+                    .Where(x => stocksOnHold
+                        .Any(y => y.StockId == x.Id))
+                    .ToList();
+                foreach(var stock in stocksToReturn)
+                {
+                    stock.Qty = stock.Qty + stocksOnHold.FirstOrDefault(x => x.StockId == stock.Id).Qty;
+                }
+                _context.StocksOnHold.RemoveRange(stocksOnHold);
+                
+                await _context.SaveChangesAsync();
+            }
 
-                Stock = x.Stock.Select(y => new StockViewModel 
-                { 
-                    Id = y.Id,
-                    Description = y.Description,
-                    InStock = y.Qty > 0
+            return _context.Products
+                .Include(x => x.Stock)
+                .Where(x => x.Name == name)
+                .Select(x => new ProductViewModel
+                {
+                    Name = x.Name,
+                    Description = x.Description,
+                    Value = $"$ {x.Value:N2}",
+
+                    Stock = x.Stock.Select(y => new StockViewModel
+                    {
+                        Id = y.Id,
+                        Description = y.Description,
+                        InStock = y.Qty > 0
+                    })
                 })
-            })
-            .FirstOrDefault();
+                .FirstOrDefault();
+        }
+            
         
         public class ProductViewModel
         {
@@ -49,6 +70,7 @@ namespace WebStore.Application.Products
             public int Id { get; set; }
             public string Description { get; set; }
             public bool InStock { get; set; }
+            public int QtyInStock { get; set; }
         }
     }
 }
