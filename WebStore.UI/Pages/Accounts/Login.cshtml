@@ -1,0 +1,39 @@
+﻿@page
+@model WebStore.UI.Pages.Accounts.LoginModel
+@{
+}
+<h3 class="title">Log In</h3>
+<div class="container">
+    <form method="post">
+        <div class="field is-horizontal">
+            <div class="field-label">
+                <label class="label">User Name</label>
+            </div>
+            <div class="field-body">
+                <div class="control">
+                    <input class="input" asp-for="Input.UserName" />
+                    <span asp-validation-for="Input.UserName" class="is-small has-text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label">
+                <label class="label">Password</label>
+            </div>
+            <div class="field-body">
+                <div class="control">
+                    <input class="input" asp-for="Input.Password" />
+                    <span asp-validation-for="Input.Password" class="is-small has-text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label">
+                <label class="label"></label>
+            </div>
+            <div class="control">
+                <button class="button is-primary" type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>

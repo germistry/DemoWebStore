@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Stripe;
-
+using WebStore.Application.UsersAdmin;
 using WebStore.Database;
 
 namespace WebStore.UI
@@ -31,11 +32,39 @@ namespace WebStore.UI
             services.AddDbContext<ApplicationDBContext>(options => options
                     .UseSqlServer(Configuration["DefaultConnection"]));
 
-            services.AddMvc(options =>
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
-                options.EnableEndpointRouting = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+                .AddEntityFrameworkStores<ApplicationDBContext>()
+                .AddDefaultTokenProviders();
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Accounts/Login";
             });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
+                //options.AddPolicy("Manager", policy => policy.RequireClaim("Role", "Manager"));
+                options.AddPolicy("Manager", policy => policy.RequireAssertion(context =>
+                    context.User.HasClaim("Role", "Admin") ||
+                    context.User.HasClaim("Role", "Manager")));
+            });
+
+            services
+                .AddMvc(options =>
+                {
+                    options.EnableEndpointRouting = false;
+                })
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AuthorizeFolder("/Admin");
+                    options.Conventions.AuthorizePage("/Admin/ConfigureUsers", "Admin");
+                });
             services.AddSession(options =>
             {
                 options.Cookie.Name = "WebStoreCart";
@@ -45,6 +74,8 @@ namespace WebStore.UI
             });
            
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
+
+            services.AddTransient<CreateUser>();
         }
         
 
@@ -67,11 +98,11 @@ namespace WebStore.UI
             //app.UseMvcWithDefaultRoute();
 
             app.UseSession();
-
             app.UseRouting();
+            app.UseAuthentication();
+            //app.UseAuthorization();
 
-            app.UseAuthorization();
-
+            app.UseMvcWithDefaultRoute();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

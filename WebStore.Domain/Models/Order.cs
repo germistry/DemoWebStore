@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebStore.Domain.Enums;
 
 namespace WebStore.Domain.Models
 {
@@ -11,6 +12,7 @@ namespace WebStore.Domain.Models
         public int Id { get; set; }
         public string OrderRef { get; set; }
         public string StripeRef { get; set; }
+        public OrderStatus Status { get; set; }
         public ICollection<OrderStock> OrderStocks { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
