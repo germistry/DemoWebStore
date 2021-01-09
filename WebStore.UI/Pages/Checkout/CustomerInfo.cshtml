@@ -4,112 +4,118 @@
 }
 
 <div class="container">
-    <h2 class="title">Customer Information</h2>
-    <form method="post">
+    <div class="columns">
+        <div class="column is-6-desktop">
+            <h2 class="title">Customer Information</h2>
+            <form method="post">
 
-        <div class="field is-horizontal">
-            <div class="field-label">
-                <label class="label">First Name</label>
-            </div>
-            <div class="field-body">
-                <div class="control">
-                    <input class="input" asp-for="CustomerInfo.FirstName" />
-                    <span asp-validation-for="CustomerInfo.FirstName" class="is-small has-text-danger"></span>
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                        <label class="label">First Name</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="control">
+                            <input class="input" asp-for="CustomerInfo.FirstName" />
+                            <span asp-validation-for="CustomerInfo.FirstName" class="is-small has-text-danger"></span>
+                        </div>
+
+                    </div>
                 </div>
-                
-            </div>
-        </div>
-        <div class="field is-horizontal">
-            <div class="field-label">
-                <label class="label">Last Name</label>
-            </div>
-            <div class="field-body">
-                <div class="control">
-                    <input class="input" asp-for="CustomerInfo.LastName" />
-                    <span asp-validation-for="CustomerInfo.LastName" class="is-small has-text-danger"></span>
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                        <label class="label">Last Name</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="control">
+                            <input class="input" asp-for="CustomerInfo.LastName" />
+                            <span asp-validation-for="CustomerInfo.LastName" class="is-small has-text-danger"></span>
+                        </div>
+
+                    </div>
                 </div>
-               
-            </div>
-        </div>
-        <div class="field is-horizontal">
-            <div class="field-label">
-                <label class="label">Email Address</label>
-            </div>
-            <div class="field-body">
-                <div class="control">
-                    <input class="input" asp-for="CustomerInfo.EmailAddress" />
-                    <span asp-validation-for="CustomerInfo.EmailAddress" class="is-small has-text-danger"></span>
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                        <label class="label">Email Address</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="control">
+                            <input class="input" asp-for="CustomerInfo.EmailAddress" />
+                            <span asp-validation-for="CustomerInfo.EmailAddress" class="is-small has-text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="field is-horizontal">
-            <div class="field-label">
-                <label class="label">Phone Number</label>
-            </div>
-            <div class="field-body">
-                <div class="control">
-                    <input class="input" asp-for="CustomerInfo.PhoneNumber" />
-                    <span asp-validation-for="CustomerInfo.PhoneNumber" class="is-small has-text-danger"></span>
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                        <label class="label">Phone Number</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="control">
+                            <input class="input" asp-for="CustomerInfo.PhoneNumber" />
+                            <span asp-validation-for="CustomerInfo.PhoneNumber" class="is-small has-text-danger"></span>
+                        </div>
+
+                    </div>
                 </div>
-                
-            </div>
-        </div>
-        <div class="field is-horizontal">
-            <div class="field-label">
-                <label class="label">Address Line 1</label>
-            </div>
-            <div class="field-body">
-                <div class="control">
-                    <input class="input" asp-for="CustomerInfo.Address1" />
-                    <span asp-validation-for="CustomerInfo.Address1" class="is-small has-text-danger"></span>
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                        <label class="label">Address Line 1</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="control">
+                            <input class="input" asp-for="CustomerInfo.Address1" />
+                            <span asp-validation-for="CustomerInfo.Address1" class="is-small has-text-danger"></span>
+                        </div>
+
+                    </div>
                 </div>
-                
-            </div>
-        </div>
-        <div class="field is-horizontal">
-            <div class="field-label">
-                <label class="label">Address Line 2</label>
-            </div>
-            <div class="field-body">
-                <div class="control">
-                    <input class="input" asp-for="CustomerInfo.Address2" />
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                        <label class="label">Address Line 2</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="control">
+                            <input class="input" asp-for="CustomerInfo.Address2" />
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="field is-horizontal">
-            <div class="field-label">
-                <label class="label">City</label>
-            </div>
-            <div class="field-body">
-                <div class="control">
-                    <input class="input" asp-for="CustomerInfo.City" />
-                    <span asp-validation-for="CustomerInfo.City" class="is-small has-text-danger"></span>
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                        <label class="label">City</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="control">
+                            <input class="input" asp-for="CustomerInfo.City" />
+                            <span asp-validation-for="CustomerInfo.City" class="is-small has-text-danger"></span>
+                        </div>
+
+                    </div>
                 </div>
-                
-            </div>
-        </div>
-        <div class="field is-horizontal">
-            <div class="field-label">
-                <label class="label">Post Code</label>
-            </div>
-            <div class="field-body">
-                <div class="control">
-                    <input class="input" asp-for="CustomerInfo.Postcode" />
-                    <span asp-validation-for="CustomerInfo.Postcode" class="is-small has-text-danger"></span>
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                        <label class="label">Post Code</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="control">
+                            <input class="input" asp-for="CustomerInfo.Postcode" />
+                            <span asp-validation-for="CustomerInfo.Postcode" class="is-small has-text-danger"></span>
+                        </div>
+
+                    </div>
                 </div>
-                
-            </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                        <label class="label"></label>
+                    </div>
+                    <div class="control">
+                        <button class="button is-primary" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        
-        <div class="field is-horizontal">
-            <div class="field-label">
-                <label class="label"></label>
-            </div>
-            <div class="control">
-                <button class="button is-primary" type="submit">Submit</button>
-            </div>
+        <div class="column is-6-desktop">
+            <vc:cart view="Default"></vc:cart>
         </div>
-        
-    </form>
+    </div>
 
 </div>

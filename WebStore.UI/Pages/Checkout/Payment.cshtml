@@ -3,23 +3,29 @@
 @{
 }
 <div class="container">
-    <h2 class="title">Payment</h2>
-
-    <form method="post" id="payment-form">
-        <div class="form-row">
-            <label for="card-element">
-                Credit or debit card
-            </label>
-            <div id="card-element">
-                <!-- A Stripe Element will be inserted here. -->
-            </div>
-
-            <!-- Used to display Element errors. -->
-            <div id="card-errors" role="alert"></div>
+    <div class="columns">
+        <div class="column is-12-mobile is-12-tablet is-6-desktop">
+            <vc:cart view="Default"></vc:cart>
         </div>
-
-        <button>Submit Payment</button>
-    </form>
+        <div class="column is-12-mobile is-12-tablet is-6-desktop">
+            <h2 class="title">Payment</h2>
+            <form method="post" id="payment-form">
+                <div class="field">
+                    <p>Please enter your credit card details to proceed with order</p>
+                </div>
+                <div class="form-row">
+                    <div class="py-3" id="card-element">
+                        <!-- A Stripe Element will be inserted here. -->
+                    </div>
+                    <!-- Used to display Element errors. -->
+                    <div class="py-3" id="card-errors" role="alert"></div>
+                </div>
+                <div class="field has-text-right">
+                    <button class="button is-success">Submit Payment</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 @section scripts {
     <script src="https://js.stripe.com/v3/"></script>

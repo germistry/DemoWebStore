@@ -1,0 +1,63 @@
+﻿@page
+@model AllProductsModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="container">
+    <h2 class="title has-text-centered-mobile mx-6 mt-5">All Products</h2>
+    
+    <div class="columns is-multiline mx-6">    
+        @foreach (var p in Model.Products)
+        {
+        
+            <div class="column is-4-desktop is-6-tablet is-12-mobile">
+                <div class="card has-equal-height">
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <img src="~/images/carrots.png" alt="Example card image">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-48x48">
+                                    <img src="~/images/carrots-placeholder.png" alt="Placeholder image">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <h2 class="title is-5"><a asp-page="Product" asp-route-name="@p.Name.Replace(" ", "-")">@p.Name</a></h2>
+                                <p class="subtitle is-5 is-bold">$@p.Value</p>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <p class="subtitle is-6">@p.Description</p>
+                            @{if (p.StockCount == 0)
+                                {
+                                    <div class="notification is-paddingless has-text-centered is-danger">
+                                        Out of Stock
+                                    </div>
+                                }
+                                else if (p.StockCount <= 5)
+                                { 
+                                    <div class="notification is-paddingless has-text-centered is-warning">
+                                        Low on Stock
+                                    </div>
+                                }
+                            }
+                            <div class="buttons">
+                                <a class="button is-warning" asp-page="Product" asp-route-name="@p.Name.Replace(" ", "-")">View Product</a>
+                                <a class="button is-success" asp-page="Product" asp-route-name="@p.Name.Replace(" ", "-")">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        }
+    
+    </div>
+</div>
+   
+
+

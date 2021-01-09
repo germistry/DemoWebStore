@@ -18,7 +18,7 @@ namespace WebStore.UI.Controllers
         public async Task<IActionResult> CreateUser([FromBody]CreateUser.Request request)
         {
             await _createUser.Action(request);
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Admin/Index");
         }
     }
 }

@@ -1,36 +1,48 @@
 ﻿@page
 @model CartModel
 @{
-
+    
 }
 
 <div class="container">
-
-    <h2 class="title">Cart</h2>
-
-    <div class="column is-6">
-        <table class="table">
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Qty</th>
-                <th>Value</th>
-                <th>Total</th>
-            </tr>
+    <div class="columns">
+        <div class="column is-10 is-offset-1">
+            <h2 class="title">Cart</h2>
             @foreach (var product in Model.CartList)
             {
-            <tr>
-                <td>@product.StockId</td>
-                <td>@product.Name</td>
-                <td>@product.Qty</td>
-                <td>@product.Value</td>
-                <td></td>
-            </tr>
+                string lineValue = $"{product.Value * product.Qty}";
+                <div class="level">
+                    <div class="level-item">
+                        <figure class="image is-64x64">
+                            <img src="~/images/carrots.png" alt="Example image" />
+                        </figure>
+                    </div>
+                    <div class="level-item">
+                        <p>@product.StockId</p>
+                    </div>
+                    <div class="level-item">
+                        @product.Name
+                    </div>
+                    <div class="level-item">
+                        @product.StockDescription
+                    </div>
+                    <div class="level-item">
+                        @product.Qty
+                    </div>
+                    <div class="level-item">
+                        $@product.Value
+                    </div>
+                    <div class="level-item">
+                        $@lineValue
+                    </div>
+                </div>
             }
-        </table>
+            <div class="has-text-right">
+                <a class="button is-success is-outlined" asp-page="/AllProducts">Continue Shopping</a>
+                <a class="button is-success" asp-page="/Checkout/CustomerInfo">Go to Checkout</a>
+            </div>
+        </div>
     </div>
-    <a class="button is-primary" asp-page="Index">Continue Shopping</a>
-    <a class="button is-success" asp-page="/Checkout/CustomerInfo">Go to Checkout</a>
+    
 </div>
 
-<vc:cart view="Small"></vc:cart>

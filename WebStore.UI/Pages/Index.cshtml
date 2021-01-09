@@ -4,23 +4,17 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="container">
-    <table class="table">
-        <tr>
-            <th>Product</th>
-            <th>Description</th>
-            <th>Price</th>
-        </tr>
+<section class="hero is-medium is-light is-bold">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Welcome to the Seed Shop
+            </h1>
+            <h2 class="subtitle">
+                Get all your garden seeds here. Veggies, fruit, pulses, flowers ... plus everything else for a sustainable food garden!
+            </h2>
+        </div>
+    </div>
+</section>
 
-        @foreach (var p in Model.Products)
-        {
-            <tr>
-                <td><a asp-page="Product" asp-route-name="@p.Name.Replace(" ", "-")">@p.Name</a></td>
-                <td>@p.Description</td>
-                <td>@p.Value</td>
-            </tr>
-        }
-    </table>
 
-</div>
-@await Component.InvokeAsync("Cart")

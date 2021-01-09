@@ -1,46 +1,94 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+<!DOCTYPE html>
+<html lang="en" class="has-navbar-fixed-top">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] : Demo Web Store UI by germistry</title>
+    <link rel="icon" type="image/x-icon" href="~/images/squareLogo.png" />
     <environment include="Development">
         <link href="~/lib/bulma-0.9.1/bulma/css/bulma.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
     <environment include="Production">
         <link href="~/lib/bulma-0.9.1/bulma/css/bulma.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true"/>
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    <script src="https://kit.fontawesome.com/7f105cc73c.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item">
+                <img src="~/images/BrandLogo.png" width="130" height="28">
+            </a>
 
-    <h3 class="title has-text-centered">Public Website</h3>
-    <div class="container">
-        
-        <div class="columns is-3">
-            <div class="column is-3">
-                <div class="menu">
-                    <p class="menu-label">Menu</p>
-                    <ul class="menu-list">
-                        <li><a asp-page="Index">Home</a></li>
-                        <li><a asp-area="" asp-page="/Admin/Index">Admin</a></li>
-                        <partial name="_LoginPartial" />
-                    </ul>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" asp-page="/Index">Home</a>
+                <a class="navbar-item" asp-page="/AllProducts">Products</a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">More</a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item">About</a>
+                        <a class="navbar-item">Contact</a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" asp-page="/Privacy">Privacy</a>
+                    </div>
                 </div>
             </div>
-            <div class="column is-9">
-                @RenderBody()
+            <div class="navbar-end">
+                <vc:cart view="Small"></vc:cart>
+                <div class="navbar-item">
+
+                    <div class="buttons">
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <a class="button is-primary" asp-area="" asp-page="/Admin/Index">Admin</a>
+                                <a class="button is-light" asp-controller="Account" asp-action="LogOut">Sign Out</a>
+                            }
+                        }
+                        else
+                        {
+                            <a class="button is-primary" asp-area="" asp-page="/Accounts/Login"><strong>Sign In</strong></a>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    
+    </nav>
+    <partial name="_CookieConsentPartial" />
+
+    @RenderBody()
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>WebStoreDemo</strong> by <a href="https://germistry.com">Krystal Ruwoldt</a>. The source code is licensed
+                <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+                is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+            </p>
+        </div>
+    </footer>
     <environment include="Development">
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment include="Production">
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
 
     @RenderSection("Scripts", required: false)
 </body>

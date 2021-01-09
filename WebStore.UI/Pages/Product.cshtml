@@ -4,68 +4,76 @@
 
 }
 
-<div class="container">
-    <h2 class="title">@Model.Product.Name</h2>
-    <div class="columns">
-        <div class="column is-6">
-            <p>@Model.Product.Description</p>
-        </div>
+<div class="hero">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-6">
+                    <figure class="image">
+                        <img src="~/images/carrots.png" />
+                    </figure>
+                </div>
 
-        <div class="column is-6">
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label">Price</label>
-                </div>
-                <div class="field-body">
-                    <label class="label is-large">@Model.Product.Value</label>
-                </div>
-            </div>
-            <form method="post">
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label">Stock</label>
+                <div class="column is-6">
+                    <h2 class="title">@Model.Product.Name</h2>
+                    <p class="subtitle">@Model.Product.Description</p>
+                    <p>Extended Description - There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+                    <div class="field is-horizontal mt-4">
+                        <div class="field-label is-normal">
+                            <label class="label">Price</label>
+                        </div>
+                        <div class="field-body">
+                            <label class="label is-large">@Model.Product.Value</label>
+                        </div>
                     </div>
-                    <div class="field-body">
-                        <div class="field is-narrow">
-                            <div class="control">
-                                <div class="select is-fullwidth">
-                                    <select asp-for="CartViewModel.StockId">
-                                        @foreach (var stock in Model.Product.Stock)
-                                        {
-                                            <option value="@stock.Id">@stock.Description</option>
-                                        }
-                                    </select>
+                    <form method="post">
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">Size</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field is-narrow">
+                                    <div class="control">
+                                        <div class="select is-fullwidth">
+                                            <select asp-for="CartViewModel.StockId">
+                                                @foreach (var stock in Model.Product.Stock)
+                                                {
+                                                    <option value="@stock.Id">@stock.Description</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label">Qty</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field is-narrow">
-                            <div class="control">
-                                <input class="input" type="text" asp-for="CartViewModel.Qty" />
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">Quantity</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field is-narrow">
+                                    <div class="control">
+                                        <input class="input" type="text" asp-for="CartViewModel.Qty" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="field is-horizontal">
-                    <div class="field-label">
-                    </div>
-                    <div class="field-body">
-                        <div class="field is-normal">
-                            <div class="control">
-                                <button class="button is-primary" type="submit">Add to Cart</button>
+                        <div class="field is-horizontal">
+                            <div class="field-label">
+                            </div>
+                            <div class="field-body">
+                                <div class="field is-normal">
+                                    <div class="control">
+                                        <button class="button is-primary" type="submit">Add to Cart</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-            </form>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-@await Component.InvokeAsync("Cart")
+

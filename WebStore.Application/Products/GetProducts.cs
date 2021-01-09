@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,17 +18,23 @@ namespace WebStore.Application.Products
         }
 
         public IEnumerable<ProductViewModel> Action() =>
-            _context.Products.ToList().Select(x => new ProductViewModel
-            {
-                Name = x.Name,
-                Description = x.Description,
-                Value = x.Value
-            });
+            _context.Products
+                .Include(x => x.Stock).AsEnumerable()
+                .Select(x => new ProductViewModel
+                {
+                    Name = x.Name,
+                    Description = x.Description,
+                    Value = x.Value,
+                    StockCount = x.Stock.Sum(y => y.Qty)
+                })
+                .ToList();
         public class ProductViewModel
         {
             public string Name { get; set; }
             public string Description { get; set; }
             public decimal Value { get; set; }
+            public int StockCount { get; set; }
+            
         }
     }
 }

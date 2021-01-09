@@ -29,7 +29,7 @@ namespace WebStore.UI.Pages
         {
             Product = await new GetProduct(_context).Action(name.Replace("-", " "));
             if (Product == null)
-                return RedirectToPage("Index");
+                return RedirectToPage("/Index");
             else
                 return Page();
         }
@@ -39,7 +39,7 @@ namespace WebStore.UI.Pages
             var stockAdded = await new AddToCart(HttpContext.Session, _context).Action(CartViewModel);
 
             if (stockAdded)
-                return RedirectToPage("Cart");
+                return RedirectToPage("/Cart");
             else
                 //TODO Add warning that stock unavailable 
                 return Page();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,7 @@ namespace WebStore.UI
 
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
+                //TODO: Change options to true in Production
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 8;
                 options.Password.RequireUppercase = false;
@@ -54,7 +56,25 @@ namespace WebStore.UI
                     context.User.HasClaim("Role", "Admin") ||
                     context.User.HasClaim("Role", "Manager")));
             });
-
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                //TODO: Enable secure cookie in production
+                //options.Secure = CookieSecurePolicy.Always;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            //TODO: Enable HSTS & SuppressXFrameOptionsHeader in Production
+            //services.AddHsts(options =>
+            //{
+            //    options.MaxAge = TimeSpan.FromDays(365);
+            //    options.IncludeSubDomains = true;
+            //    options.Preload = true;
+            //});
+            //services.AddAntiforgery(options =>
+            //{
+            //    //this is set expressly in content headers 
+            //    options.SuppressXFrameOptionsHeader = true;
+            //});
             services
                 .AddMvc(options =>
                 {
@@ -78,7 +98,6 @@ namespace WebStore.UI
             services.AddTransient<CreateUser>();
         }
         
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -92,9 +111,27 @@ namespace WebStore.UI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            //TODO: Enable Security Headers in Production
+            //app.Use(async (context, next) =>
+            //{
+            //    if (!context.Response.Headers.ContainsKey("Header-Name"))
+            //    {
+            //        //this header just to be be used as the key for this if statement
+            //        context.Response.Headers.Add("Header-Name", "Header-Value");
+            //        context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
+            //        context.Response.Headers.Add("X-Xss-Protection", "1; mode=block");
+            //        context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+            //        context.Response.Headers.Add("X-Permitted-Cross-Domain-Policies", "none");
+            //        context.Response.Headers.Add("Feature-Policy", "accelerometer 'none'; camera 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; payment 'none'; usb 'none'");
+            //        context.Response.Headers.Add("Referrer-Policy", "no-referrer-when-downgrade");
+            //        context.Response.Headers.Add("Content-Security-Policy-Report-Only", "default-src 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/releases/ 'unsafe-eval'; img-src 'self' data:; report-uri /cspreport");
+            //        //context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/releases/ 'unsafe-eval'; img-src 'self' data:;");
+            //    }
+            //    await next();
+            //});
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
             //app.UseMvcWithDefaultRoute();
 
             app.UseSession();

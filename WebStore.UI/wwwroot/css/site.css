@@ -1,4 +1,4 @@
-﻿/*Stripe CSS Legacy*/
+﻿/*------------Stripe CSS Legacy------------*/
 .StripeElement {
     background-color: white;
     height: 40px;
@@ -18,3 +18,35 @@
 .StripeElement--webkit-autofill {
     background-color: #fefde5 !important;
 }
+
+/*----------Public Site CSS------------*/
+
+html,
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+    body > footer {
+        margin-top: auto;
+    }
+
+.navbar {
+    background-image: linear-gradient( 0, rgba(0, 255, 144, 0.39), white);
+}
+.consent-cookie {
+    line-height: 2.0rem;
+}
+.hero.is-light.is-bold {
+    background-image: linear-gradient(to bottom right, white, rgba(37, 121, 66, 0.11), rgba(76, 236, 131, 0.40))
+}
+.has-equal-height {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+    .has-equal-height .card-footer {
+        margin-top: auto;
+    }

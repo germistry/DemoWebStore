@@ -37,9 +37,10 @@ namespace WebStore.Application.Cart
                 .Select(x => new Response
                 {
                     Name = x.Product.Name,
-                    Value = $"$ {x.Product.Value:N2}",
+                    Value = x.Product.Value,
                     Qty = cartList.FirstOrDefault(y => y.StockId == x.Id).Qty,
-                    StockId = x.Id
+                    StockId = x.Id,
+                    StockDescription = x.Description                     
                 })
                 .ToList();
             
@@ -49,9 +50,10 @@ namespace WebStore.Application.Cart
         public class Response
         {
             public string Name { get; set; }
-            public string Value { get; set; }
+            public decimal Value { get; set; }
             public int Qty { get; set; }
             public int StockId { get; set; }
+            public string StockDescription { get; set; }
         }
     }
 }

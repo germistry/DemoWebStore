@@ -1,31 +1,13 @@
-﻿@model IEnumerable<WebStore.Application.Cart.GetCart.Response>
+﻿@model string
 @{
 
 }
 
-<div class="container">
-
-    <h2 class="title">Small Cart</h2>
-
-    <div class="column is-6">
-        <table class="table">
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Qty</th>
-                <th>Value</th>
-                <th>Total</th>
-            </tr>
-            @foreach (var product in Model)
-            {
-                <tr>
-                    <td>@product.StockId</td>
-                    <td>@product.Name</td>
-                    <td>@product.Qty</td>
-                    <td>@product.Value</td>
-                    <td></td>
-                </tr>
-            }
-        </table>
-    </div>
-</div>
+<a class="navbar-item" asp-area="" asp-page="/Cart">
+    <span class="icon-text">
+        <span class="icon has-text-success">
+            <i class="fas fa-shopping-cart"></i>
+        </span>
+        <span>@Model</span>
+    </span>
+</a>

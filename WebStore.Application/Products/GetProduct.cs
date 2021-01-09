@@ -25,6 +25,7 @@ namespace WebStore.Application.Products
             if(stocksOnHold.Count > 0)
             {
                 var stocksToReturn = _context.Stock
+                    .AsEnumerable()
                     .Where(x => stocksOnHold
                         .Any(y => y.StockId == x.Id))
                     .ToList();
@@ -44,7 +45,7 @@ namespace WebStore.Application.Products
                 {
                     Name = x.Name,
                     Description = x.Description,
-                    Value = $"$ {x.Value:N2}",
+                    Value = $" ${x.Value:N2}",
 
                     Stock = x.Stock.Select(y => new StockViewModel
                     {
