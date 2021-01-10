@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,8 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Stripe;
-using WebStore.Application.UsersAdmin;
+using WebStore.Application.Infrastructure;
 using WebStore.Database;
+using WebStore.UI.Infrastructure;
 
 namespace WebStore.UI
 {
@@ -29,6 +27,7 @@ namespace WebStore.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
             services.AddRazorPages();
             services.AddDbContext<ApplicationDBContext>(options => options
                     .UseSqlServer(Configuration["DefaultConnection"]));
@@ -92,10 +91,11 @@ namespace WebStore.UI
                 //to ensure stock to return is returned
                 options.Cookie.MaxAge = TimeSpan.FromMinutes(30);
             });
-           
+            services.AddScoped<ISessionManager, SessionManager>();
+            
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
 
-            services.AddTransient<CreateUser>();
+            services.AddApplicationServices();
         }
         
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

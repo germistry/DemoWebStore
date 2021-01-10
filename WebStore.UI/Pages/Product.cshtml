@@ -3,7 +3,7 @@
 @{
 
 }
-
+<!--Will want to change this to use Vue-->
 <div class="hero">
     <div class="hero-body">
         <div class="container">
@@ -35,10 +35,11 @@
                                 <div class="field is-narrow">
                                     <div class="control">
                                         <div class="select is-fullwidth">
-                                            <select asp-for="CartViewModel.StockId">
+                                            <select asp-for="CartViewModel.StockId" on-change="toggleStock(event)">
                                                 @foreach (var stock in Model.Product.Stock)
                                                 {
-                                                    <option value="@stock.Id">@stock.Description</option>
+                                                    bool disabled = stock.Qty <= 0;
+                                                    <option value="@stock.Id" disabled="@disabled">@stock.Description</option>
                                                 }
                                             </select>
                                         </div>
@@ -53,7 +54,16 @@
                             <div class="field-body">
                                 <div class="field is-narrow">
                                     <div class="control">
-                                        <input class="input" type="text" asp-for="CartViewModel.Qty" />
+                                        <input class="input" type="text" asp-for="CartViewModel.Qty" value="1"/>
+                                        @foreach(var stock in Model.Product.Stock)
+                                        {
+                                            if (stock.Qty <= 5)
+                                            {
+                                                <p class="is-danger is-hidden low-stock" id="low-stock-@stock.Id">
+                                                    @(stock.Qty == 0 ? "Out of Stock" : $"{stock.Qty} left")
+                                                </p>
+                                            }
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -76,4 +86,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    var toggleStock = function (e) {
+        console.log(e);
+        var stockToHide = document.querySelectorAll('.low-stock');
+        stockToHide.forEach(function (e) {
+            e.classList.add('is-hidden');
+        });
+        showLowStock(e.target.value);
+        
+    }
+    var showLowStock = function (id) {
+        var stockToShow = document.getElementById('low-stock-' + id);
+        if (stockToShow !== null && stockToShow !== undefined) {
+            stockToShow.classList.remove('is-hidden');
+        }
+    }
+    showLowStock(document.getElementById('CartViewModel_StockId').value);
+</script>
 

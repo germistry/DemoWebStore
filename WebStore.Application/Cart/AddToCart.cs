@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using WebStore.Application.Infrastructure;
 using WebStore.Database;
 using WebStore.Domain.Models;
 
@@ -12,68 +9,75 @@ namespace WebStore.Application.Cart
 {
     public class AddToCart
     {
-        private ISession _session;
+        private readonly ISessionManager _sessionManager;
         private ApplicationDBContext _context;
 
-        public AddToCart(ISession session, ApplicationDBContext context)
+        public AddToCart(ISessionManager sessionManager, ApplicationDBContext context)
         {
-            _session = session;
+            _sessionManager = sessionManager;
             _context = context;
+        }
+
+        public interface IStockManager
+        {
+            bool EnoughStock(int stockId, int qty);
+            Task PutStockOnHold(int stockId, int qty, string sessionId);
+        }
+        public class StockManager : IStockManager
+        {
+            private ApplicationDBContext _context;
+
+            public StockManager(ApplicationDBContext context)
+            {
+                _context = context;
+            }
+            public bool EnoughStock(int stockId, int qty)
+            {
+                return _context.Stock
+                        .FirstOrDefault(x => x.Id == stockId)
+                        .Qty >= qty;
+            }
+            public Task PutStockOnHold(int stockId, int qty, string sessionId)
+            {
+                _context.Stock.FirstOrDefault(x => x.Id == stockId).Qty -= qty;
+
+                var stockOnHold = _context.StocksOnHold
+                    .Where(x => x.SessionId == sessionId)
+                    .ToList();
+                if (stockOnHold.Any(x => x.StockId == stockId))
+                {
+                    stockOnHold.Find(x => x.StockId == stockId).Qty += qty;
+                }
+                else
+                {
+                    _context.StocksOnHold.Add(new StockOnHold
+                    {
+                        StockId = stockId,
+                        SessionId = sessionId,
+                        Qty = qty,
+                        ExpiryDate = DateTime.Now.AddMinutes(30)
+                    });
+                }
+                foreach (var stock in stockOnHold)
+                { 
+                    stock.ExpiryDate = DateTime.Now.AddMinutes(30);
+                }
+                return _context.SaveChangesAsync();
+            }
         }
 
         public async Task<bool> Action(Request request)
         {
-            var stockOnHold = _context.StocksOnHold
-                .Where(x => x.SessionId == _session.Id)
-                .ToList();
 
-            var stockToHold = _context.Stock
-                .Where(x => x.Id == request.StockId)
-                .FirstOrDefault();
+            IStockManager stockManager = new StockManager(_context);
 
-            if(stockToHold.Qty < request.Qty)
+            if(!stockManager.EnoughStock(request.StockId, request.Qty))
             {
                 return false;
             }
-            _context.StocksOnHold.Add(new StockOnHold
-            {
-                StockId = stockToHold.Id,
-                SessionId = _session.Id,
-                Qty = request.Qty,
-                ExpiryDate = DateTime.Now.AddMinutes(30)
-            });
-            stockToHold.Qty = stockToHold.Qty - request.Qty;
+            await stockManager.PutStockOnHold(request.StockId, request.Qty, _sessionManager.GetId());
 
-            //TODO Better way to do this would be using a filter. 
-            foreach(var stock in stockOnHold)
-            {
-                stock.ExpiryDate = DateTime.Now.AddMinutes(30);
-            }
-
-            await _context.SaveChangesAsync();
-
-            var cartList = new List<CartProduct>();
-            var stringObject = _session.GetString("cart");
-            if (!string.IsNullOrEmpty(stringObject))
-            {
-                cartList = JsonConvert.DeserializeObject<List<CartProduct>>(stringObject);
-            }
-            if(cartList.Any(x => x.StockId == request.StockId))
-            {
-                cartList.Find(x => x.StockId == request.StockId).Qty += request.Qty;
-            }
-            else
-            {
-                cartList.Add(new CartProduct
-                {
-                    StockId = request.StockId,
-                    Qty = request.Qty
-                });
-            }
-            
-            stringObject = JsonConvert.SerializeObject(cartList);
-
-            _session.SetString("cart", stringObject);
+            _sessionManager.AddCartProduct(request.StockId, request.Qty);
 
             return true;
         }

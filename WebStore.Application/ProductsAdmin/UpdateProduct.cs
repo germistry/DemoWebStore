@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Database;
 
@@ -16,7 +12,7 @@ namespace WebStore.Application.ProductsAdmin
         { 
             _context = context;
         }
-        public async Task<Response> Action(Request request)
+        public async Task<Response> ActionAsync(Request request)
         {
             var product = _context.Products.FirstOrDefault(x => x.Id == request.Id);
 

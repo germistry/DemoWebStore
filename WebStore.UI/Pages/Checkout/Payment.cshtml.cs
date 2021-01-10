@@ -22,9 +22,9 @@ namespace WebStore.UI.Pages.Checkout
             _context = context;
         }
                
-        public IActionResult OnGet()
+        public IActionResult OnGet([FromServices] GetCustomerInfo getCustomerInfo)
         {
-            var customerInfo = new GetCustomerInfo(HttpContext.Session).Action();
+            var customerInfo = getCustomerInfo.Action();
             if (customerInfo == null)
             {
                 return RedirectToPage("/Checkout/CustomerInfo");
@@ -32,12 +32,12 @@ namespace WebStore.UI.Pages.Checkout
             return Page();
         }
         //TODO Implement Stripe Payment for V3 (currently working only on v1)
-        public async Task<IActionResult> OnPost(string stripeEmail, string stripeToken)
+        public async Task<IActionResult> OnPost([FromServices] GetCartOrder getCartOrder, string stripeEmail, string stripeToken)
         {
             var customers = new CustomerService();
             var charges = new ChargeService();
 
-            var cartOrder = new Application.Cart.GetOrder(HttpContext.Session, _context).Action();
+            var cartOrder = getCartOrder.Action();
 
             var customer = customers.Create(new CustomerCreateOptions
             {

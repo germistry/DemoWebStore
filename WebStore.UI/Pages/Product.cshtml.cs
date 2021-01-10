@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebStore.Database;
 using WebStore.Application.Products;
-using Microsoft.AspNetCore.Http;
 using WebStore.Application.Cart;
 
 namespace WebStore.UI.Pages
@@ -34,9 +30,9 @@ namespace WebStore.UI.Pages
                 return Page();
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPost([FromServices] AddToCart addToCart)
         {
-            var stockAdded = await new AddToCart(HttpContext.Session, _context).Action(CartViewModel);
+            var stockAdded = await addToCart.Action(CartViewModel);
 
             if (stockAdded)
                 return RedirectToPage("/Cart");

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WebStore.Database;
 
@@ -51,7 +50,7 @@ namespace WebStore.Application.Products
                     {
                         Id = y.Id,
                         Description = y.Description,
-                        InStock = y.Qty > 0
+                        Qty = y.Qty
                     })
                 })
                 .FirstOrDefault();
@@ -70,8 +69,7 @@ namespace WebStore.Application.Products
         {
             public int Id { get; set; }
             public string Description { get; set; }
-            public bool InStock { get; set; }
-            public int QtyInStock { get; set; }
+            public int Qty { get; set; }
         }
     }
 }

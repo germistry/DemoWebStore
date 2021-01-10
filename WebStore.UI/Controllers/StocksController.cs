@@ -14,25 +14,27 @@ namespace WebStore.UI.Controllers
     [Authorize(Policy = "Manager")]
     public class StocksController : Controller
     {
-        private ApplicationDBContext _context;
-        public StocksController(ApplicationDBContext context)
-        {
-            _context = context;
-        }
-
         [HttpGet("")]
-        public IActionResult GetStock() => Ok(new GetStock(_context).Action());
+        public IActionResult GetStock(
+            [FromServices] GetStock getStock) => 
+                Ok(getStock.Action());
 
         [HttpPost("")]
-        public async Task<IActionResult> CreateStock([FromBody] CreateStock.Request request) =>
-            Ok(await new CreateStock(_context).Action(request));
+        public async Task<IActionResult> CreateStock(
+            [FromBody] CreateStock.Request request, 
+            [FromServices] CreateStock createStock) =>
+                Ok(await createStock.ActionAsync(request));
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStock(int id) =>
-            Ok(await new DeleteStock(_context).Action(id));
+        public async Task<IActionResult> DeleteStock(
+            int id,
+            [FromServices] DeleteStock deleteStock) =>
+                Ok(await deleteStock.ActionAsync(id));
 
         [HttpPut("")]
-        public async Task<IActionResult> UpdateStock([FromBody] UpdateStock.Request request) =>
-            Ok(await new UpdateStock(_context).Action(request));
+        public async Task<IActionResult> UpdateStock(
+            [FromBody] UpdateStock.Request request, 
+            [FromServices] UpdateStock updateStock) =>
+                Ok(await updateStock.ActionAsync(request));
     }
 }

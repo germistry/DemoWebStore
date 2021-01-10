@@ -1,31 +1,22 @@
-﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebStore.Domain.Models;
+﻿using WebStore.Application.Infrastructure;
 
 namespace WebStore.Application.Cart
 {
     public class GetCustomerInfo
     {
-        private ISession _session;
+        private readonly ISessionManager _sessionManager;
 
-        public GetCustomerInfo(ISession session)
+        public GetCustomerInfo(ISessionManager sessionManager)
         {
-            _session = session;
+            _sessionManager = sessionManager;
         }
 
         public Response Action()
         {
-            var stringObject = _session.GetString("customer-info");
+            var customerInfo = _sessionManager.GetCustomerInfo();
 
-            if (String.IsNullOrEmpty(stringObject))
+            if (customerInfo == null)
                 return null;
-
-            var customerInfo = JsonConvert.DeserializeObject<CustomerInfo>(stringObject);
             
             return new Response 
             {

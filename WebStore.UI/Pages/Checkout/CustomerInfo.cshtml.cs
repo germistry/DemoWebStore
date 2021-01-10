@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,13 +15,12 @@ namespace WebStore.UI.Pages.Checkout
             _env = env;
         }
 
-
         [BindProperty]
         public AddCustomerInfo.Request CustomerInfo { get; set; }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet([FromServices] GetCustomerInfo getCustomerInfo)
         {
-            var customerInfo = new GetCustomerInfo(HttpContext.Session).Action();
+            var customerInfo = getCustomerInfo.Action();
             if(customerInfo == null)
             {
                 if(_env.EnvironmentName == "Development")
@@ -52,12 +47,12 @@ namespace WebStore.UI.Pages.Checkout
             } 
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost([FromServices] AddCustomerInfo addCustomerInfo)
         {
             if (!ModelState.IsValid)
                 return Page();
 
-            new AddCustomerInfo(HttpContext.Session).Action(CustomerInfo);
+            addCustomerInfo.Action(CustomerInfo);
 
             return RedirectToPage("/Checkout/Payment");
         }

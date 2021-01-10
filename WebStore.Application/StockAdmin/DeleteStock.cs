@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Database;
 
@@ -16,7 +13,7 @@ namespace WebStore.Application.StockAdmin
             _context = context;
         }
 
-        public async Task<bool> Action(int id)
+        public async Task<bool> ActionAsync(int id)
         {
             var stock = _context.Stock.FirstOrDefault(x => x.Id == id);
             _context.Stock.Remove(stock);

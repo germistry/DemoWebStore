@@ -1,47 +1,39 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using WebStore.Application.Infrastructure;
 using WebStore.Database;
-using WebStore.Domain.Models;
 
 namespace WebStore.Application.Cart
 {
-    public class GetOrder
+    public class GetCartOrder
     {
-        private ISession _session;
+        private readonly ISessionManager _sessionManager;
         private ApplicationDBContext _context;
 
-        public GetOrder(ISession session, ApplicationDBContext context)
+        public GetCartOrder(ISessionManager sessionManager, ApplicationDBContext context)
         {
-            _session = session;
+            _sessionManager = sessionManager;
             _context = context;
         }
 
         public Response Action()
         {
-            var cart = _session.GetString("cart");
-            
-            var cartList = JsonConvert.DeserializeObject<List<CartProduct>>(cart);
+            var cart = _sessionManager.GetCart();
 
             var listProducts = _context.Stock
                 .Include(x => x.Product).AsEnumerable()
-                .Where(x => cartList.Any(y => y.StockId == x.Id))
+                .Where(x => cart.Any(y => y.StockId == x.Id))
                 .Select(x => new Product
                 {
                     ProductId = x.ProductId,
                     StockId = x.Id,
                     Value = (int)(x.Product.Value * 100), 
-                    Qty = cartList.FirstOrDefault(y => y.StockId == x.Id).Qty
+                    Qty = cart.FirstOrDefault(y => y.StockId == x.Id).Qty
                 })
                 .ToList();
 
-            var custInfoString = _session.GetString("customer-info");
-            var customerInfo = JsonConvert.DeserializeObject<WebStore.Domain.Models.CustomerInfo>(custInfoString);
+            var customerInfo = _sessionManager.GetCustomerInfo();
 
             return new Response 
             { 
@@ -59,7 +51,6 @@ namespace WebStore.Application.Cart
                 }
             };
         }
-
         public class Product
         {
             public int ProductId { get; set; }
@@ -78,7 +69,6 @@ namespace WebStore.Application.Cart
             public string City { get; set; }
             public string Postcode { get; set; }
         }
-
         public class Response
         {
             public IEnumerable<Product> Products { get; set; }

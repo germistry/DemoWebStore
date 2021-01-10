@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebStore.Database;
 using WebStore.Domain.Models;
@@ -16,7 +13,7 @@ namespace WebStore.Application.StockAdmin
             _context = context;
         }
 
-        public async Task<Response> Action(Request request)
+        public async Task<Response> ActionAsync(Request request)
         {
             var stocks = new List<Stock>();
 

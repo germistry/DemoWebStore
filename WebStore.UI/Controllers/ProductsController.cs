@@ -14,29 +14,33 @@ namespace WebStore.UI.Controllers
     [Authorize(Policy = "Manager")]
     public class ProductsController : Controller
     {
-
-        private ApplicationDBContext _context;
-        public ProductsController(ApplicationDBContext context)
-        {
-            _context = context;
-        }
-
         [HttpGet("")]
-        public IActionResult GetProducts() => Ok(new GetProducts(_context).Action());
+        public IActionResult GetProducts(
+            [FromServices] GetProducts getProducts) => 
+                Ok(getProducts.Action());
 
         [HttpGet("{id}")]
-        public IActionResult GetProduct(int id) => Ok(new GetProduct(_context).Action(id));
+        public IActionResult GetProduct(
+            int id, 
+            [FromServices] GetProduct getProduct) => 
+                Ok(getProduct.Action(id));
 
         [HttpPost("")]
-        public async Task<IActionResult> CreateProduct([FromBody] CreateProduct.Request request) =>
-            Ok(await new CreateProduct(_context).Action(request));
+        public async Task<IActionResult> CreateProduct(
+            [FromBody] CreateProduct.Request request,
+            [FromServices] CreateProduct createProduct) =>
+                Ok(await createProduct.ActionAsync(request));
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id) =>
-            Ok(await new DeleteProduct(_context).Action(id));
+        public async Task<IActionResult> DeleteProduct(
+            int id, 
+            [FromServices] DeleteProduct deleteProduct) =>
+                Ok(await deleteProduct.ActionAsync(id));
 
         [HttpPut("")]
-        public async Task<IActionResult> UpdateProduct([FromBody] UpdateProduct.Request request) =>
-            Ok(await new UpdateProduct(_context).Action(request));
+        public async Task<IActionResult> UpdateProduct(
+            [FromBody] UpdateProduct.Request request,
+            [FromServices] UpdateProduct updateProduct) =>
+                Ok(await updateProduct.ActionAsync(request));
     }
 }

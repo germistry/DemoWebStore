@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace WebStore.UI.Controllers
 {
-    
     public class AccountController : Controller
     {
         private SignInManager<IdentityUser> _signInManager;

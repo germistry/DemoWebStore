@@ -14,19 +14,22 @@ namespace WebStore.UI.Controllers
     [Authorize(Policy = "Manager")]
     public class OrdersController : Controller
     {
-        private ApplicationDBContext _context;
-        public OrdersController(ApplicationDBContext context)
-        {
-            _context = context;
-        }
-
         [HttpGet("")]
-        public IActionResult GetOrders(int status) => Ok(new GetOrders(_context).Action(status));
+        public IActionResult GetOrders(
+            int status, 
+            [FromServices] GetOrders getOrders) => 
+                Ok(getOrders.Action(status));
+        
         [HttpGet("{id}")]
-        public IActionResult GetOrder(int id) => Ok(new GetOrder(_context).Action(id));
+        public IActionResult GetOrder(
+            int id,
+            [FromServices] GetOrder getOrder) => 
+                Ok(getOrder.Action(id));
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrder(int id) => Ok((await new UpdateOrder(_context).Action(id)));
-
-
+        public async Task<IActionResult> UpdateOrder(
+            int id,
+            [FromServices] UpdateOrder updateOrder) => 
+                Ok(await updateOrder.ActionAsync(id));
     }
 }
