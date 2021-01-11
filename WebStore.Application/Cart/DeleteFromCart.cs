@@ -1,48 +1,29 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using WebStore.Application.Infrastructure;
-using WebStore.Database;
+﻿using System.Threading.Tasks;
+using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.Cart
 {
     public class DeleteFromCart
     {
         private readonly ISessionManager _sessionManager;
-        private ApplicationDBContext _context;
+        private readonly IStockManager _stockManager;
 
-        public DeleteFromCart(ISessionManager sessionManager, ApplicationDBContext context)
+        public DeleteFromCart(ISessionManager sessionManager, IStockManager stockManager)
         {
             _sessionManager = sessionManager;
-            _context = context;
+            _stockManager = stockManager;
         }
 
         public async Task<bool> Action(Request request)
         {
-            var stockOnHold = _context.StocksOnHold
-                .FirstOrDefault(x => 
-                    x.StockId == request.StockId && x.SessionId == _sessionManager.GetId());
-
-            var stockInStore = _context.Stock.FirstOrDefault(x => x.Id == request.StockId);
-            if(request.All)
+            if(request.Qty <= 0)
             {
-                stockInStore.Qty += stockOnHold.Qty;
-                _sessionManager.DeleteCartProduct(request.StockId, stockOnHold.Qty);
-                stockOnHold.Qty = 0;
-            }
-            else
-            {
-                stockInStore.Qty += request.Qty;
-                stockOnHold.Qty -= request.Qty;
-                _sessionManager.DeleteCartProduct(request.StockId, request.Qty);
+                return false;
             }
             
-            if(stockOnHold.Qty <= 0)
-            {
-                _context.Remove(stockOnHold);
-            }
+            await _stockManager.RemoveStockOnHold(request.StockId, request.Qty, _sessionManager.GetId());
             
-            await _context.SaveChangesAsync();
-
+            _sessionManager.DeleteCartProduct(request.StockId, request.Qty);
             return true;
         }
 
@@ -50,7 +31,7 @@ namespace WebStore.Application.Cart
         {
             public int StockId { get; set; }
             public int Qty { get; set; }
-            public bool All { get; set; }
+           
         }
     }
 }

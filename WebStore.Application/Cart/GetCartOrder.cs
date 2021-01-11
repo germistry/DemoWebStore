@@ -1,37 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using WebStore.Application.Infrastructure;
-using WebStore.Database;
+using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.Cart
 {
     public class GetCartOrder
     {
         private readonly ISessionManager _sessionManager;
-        private ApplicationDBContext _context;
-
-        public GetCartOrder(ISessionManager sessionManager, ApplicationDBContext context)
+        public GetCartOrder(ISessionManager sessionManager)
         {
             _sessionManager = sessionManager;
-            _context = context;
         }
 
         public Response Action()
         {
-            var cart = _sessionManager.GetCart();
-
-            var listProducts = _context.Stock
-                .Include(x => x.Product).AsEnumerable()
-                .Where(x => cart.Any(y => y.StockId == x.Id))
-                .Select(x => new Product
+            var listProducts = _sessionManager
+                .GetCart(x => new Product
                 {
                     ProductId = x.ProductId,
-                    StockId = x.Id,
-                    Value = (int)(x.Product.Value * 100), 
-                    Qty = cart.FirstOrDefault(y => y.StockId == x.Id).Qty
-                })
-                .ToList();
+                    StockId = x.StockId,
+                    Value = x.Value.GetValueAsInt(), 
+                    Qty = x.Qty
+                });
 
             var customerInfo = _sessionManager.GetCustomerInfo();
 

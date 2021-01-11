@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Application.Cart;
 
@@ -7,13 +8,13 @@ namespace WebStore.UI.Controllers
     [Route("[controller]/[action]")]
     public class CartController : Controller
     {
-        [HttpPost("{stockId}")]
-        public async Task<IActionResult> AddOne(int stockId, [FromServices] AddToCart addToCart)
+        [HttpPost("{stockId}/{qty}")]
+        public async Task<IActionResult> AddOne(int stockId, int qty, [FromServices] AddToCart addToCart)
         {
             var request = new AddToCart.Request
             {
                 StockId = stockId,
-                Qty = 1
+                Qty = qty
             };
             
             var success = await addToCart.Action(request);
@@ -21,13 +22,13 @@ namespace WebStore.UI.Controllers
                 return Ok("Item added to cart");
             return BadRequest("Failed to add to cart");      
         }
-        [HttpPost("{stockId}")]
-        public async Task<IActionResult> MinusOne(int stockId, [FromServices] DeleteFromCart deleteFromCart)
+        [HttpPost("{stockId}/{qty}")]
+        public async Task<IActionResult> Remove(int stockId, int qty, [FromServices] DeleteFromCart deleteFromCart)
         {
             var request = new DeleteFromCart.Request
             {
                 StockId = stockId,
-                Qty = 1
+                Qty = qty
             };
 
             var success = await deleteFromCart.Action(request);
@@ -36,19 +37,17 @@ namespace WebStore.UI.Controllers
             return BadRequest("Failed to delete item from cart");
 
         }
-        [HttpPost("{stockId}")]
-        public async Task<IActionResult> RemoveAll(int stockId, [FromServices] DeleteFromCart deleteFromCart)
+        [HttpGet]
+        public IActionResult GetCartNav([FromServices] GetCart getCart)
         {
-            var request = new DeleteFromCart.Request
-            {
-                StockId = stockId,
-                All = true
-            };
-
-            var success = await deleteFromCart.Action(request);
-            if (success)
-                return Ok("Removed all items from cart");
-            return BadRequest("Failed to removed all items from cart");
+            var totalValue = getCart.Action().Sum(x => x.Value * x.Qty);
+            return PartialView("Components/Cart/Small", $"${totalValue}");
+        }
+        [HttpGet]
+        public IActionResult GetCartMain([FromServices] GetCart getCart)
+        {
+            var cart = getCart.Action();
+            return PartialView("_CartPartial", cart);
         }
     }
 }

@@ -1,0 +1,72 @@
+﻿@model IEnumerable<WebStore.Application.Cart.GetCart.Response>
+
+<div id="main-cart" class="columns">
+    <div class="column is-12 is-multiline">
+        <h2 class="title">Cart</h2>
+        @foreach (var product in Model)
+        {
+            string lineValue = $"{product.Value * product.Qty}";
+
+            <article class="media">
+                <figure class="media-left">
+                    <p class="image is-64x64">
+                        <img src="~/images/carrots.png" alt="Example image" />
+                    </p>
+                </figure>
+                <div class="media-content">
+                    <p class="title">@product.Name</p>
+                    <div class="level">
+                        <div class="level-item">@product.StockId</div>
+                        <div class="level-item">@product.StockDescription</div>
+                        <div class="level-item">
+                            <div class="columns is-mobile">
+                                <div class="column">
+                                    <button class="button is-small is-primary"
+                                            type="button"
+                                            onclick="minusOneFromCart(event)"
+                                            data-stock-id="@product.StockId">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                                <div class="column is-align-self-center" id="stock-qty-@(product.StockId)">
+                                    @product.Qty
+                                </div>
+                                <div class="column">
+                                    <button class="button is-small is-primary"
+                                            type="button"
+                                            onclick="addOneToCart(event)"
+                                            data-stock-id="@product.StockId">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="level-item">$@product.Value</div>
+                        <div class="level-item">$@lineValue</div>
+                        <div class="level-item">
+                            <a class="has-text-danger"
+                               onclick="removeAllFromCart(event)"
+                               data-stock-id="@product.StockId">Remove</a>
+                        </div>
+                    </div>
+                </div>
+
+            </article>
+
+        }
+    </div>
+    <div class="column is-12">
+        <div class="has-text-right">
+            <a class="button is-success is-outlined" asp-page="/AllProducts">Continue Shopping</a>
+            @if (Model.Count() > 0)
+            {
+                <a class="button is-success" asp-page="/Checkout/CustomerInfo">Go to Checkout</a>
+            }
+            else
+            {
+                <a class="button is-success" asp-page="/Checkout/CustomerInfo" disabled>Go to Checkout</a>
+            }
+
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-﻿using WebStore.Application.Infrastructure;
+﻿using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.Cart
 {

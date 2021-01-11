@@ -9,8 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Stripe;
-using WebStore.Application.Infrastructure;
 using WebStore.Database;
+using WebStore.Domain.Infrastructure;
 using WebStore.UI.Infrastructure;
 
 namespace WebStore.UI
@@ -91,8 +91,9 @@ namespace WebStore.UI
                 //to ensure stock to return is returned
                 options.Cookie.MaxAge = TimeSpan.FromMinutes(30);
             });
+
+            services.AddTransient<IStockManager, StockManager>();
             services.AddScoped<ISessionManager, SessionManager>();
-            
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
 
             services.AddApplicationServices();

@@ -5,69 +5,7 @@
 }
 
 <div class="container">
-    <div class="columns">
-        <div class="column is-12 is-multiline">
-            <h2 class="title">Cart</h2>
-            @foreach (var product in Model.CartList)
-            {
-                string lineValue = $"{product.Value * product.Qty}";
-            <div id="product-@(product.StockId)">
-                <article class="media">
-                    <figure class="media-left">
-                        <p class="image is-64x64">
-                            <img src="~/images/carrots.png" alt="Example image" />
-                        </p>
-                    </figure>
-                    <div class="media-content">
-                        <p class="title">@product.Name</p>
-                        <div class="level">
-                            <div class="level-item">@product.StockId</div>
-                            <div class="level-item">@product.StockDescription</div>
-                            <div class="level-item">
-                                <div class="columns is-mobile">
-                                    <div class="column">
-                                        <button class="button is-small is-primary"
-                                                type="button"
-                                                onclick="minusOneFromCart(event)"
-                                                data-stock-id="@product.StockId">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <div class="column is-align-self-center"
-                                         id="stock-@(product.StockId)">
-                                        @product.Qty
-                                    </div>
-                                    <div class="column">
-                                        <button class="button is-small is-primary"
-                                                type="button"
-                                                onclick="addOneToCart(event)"
-                                                data-stock-id="@product.StockId">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="level-item">$@product.Value</div>
-                            <div class="level-item">$@lineValue</div>
-                            <div class="level-item">
-                                <a class="has-text-danger"
-                                   onclick="removeAllFromCart(event)"
-                                   data-stock-id="@product.StockId">Remove</a>
-                            </div>
-                        </div>
-                    </div>
-
-                </article>
-            </div>
-            }
-        </div>
-        <div class="column is-12">
-            <div class="has-text-right">
-                <a class="button is-success is-outlined" asp-page="/AllProducts">Continue Shopping</a>
-                <a class="button is-success" asp-page="/Checkout/CustomerInfo">Go to Checkout</a>
-            </div>
-        </div>
-    </div>
+    <partial name="_CartPartial" model="@Model.CartList"/>
 </div>
 
 @section scripts {
@@ -76,12 +14,9 @@
         var addOneToCart = function (e) {
             console.log(e);
             var stockId = e.target.dataset.stockId;
-            axios.post("/Cart/AddOne/" + stockId)
+            axios.post('/Cart/AddOne/' + stockId)
                 .then(res => {
-                    var id = "stock-" + stockId;
-                    var el = document.getElementById(id);
-                    var qty = parseInt(el.innerText);
-                    el.innerText = (qty + 1);
+                    updateCart();
                 })
                 .catch(err => {
                     alert(err.error);
@@ -90,27 +25,45 @@
         var minusOneFromCart = function (e) {
             console.log(e);
             var stockId = e.target.dataset.stockId;
-            axios.post("/Cart/MinusOne/" + stockId)
+            removeFromCart(stockId, 1);
+   
+        }
+        var removeAllFromCart = function (e) {
+            console.log(e);
+            var stockId = e.target.dataset.stockId;
+            var id = 'stock-qty-' + stockId;
+            var el = document.getElementById(id);
+            var qty = parseInt(el.innerText);
+            removeFromCart(stockId, qty);
+                
+        }
+        var removeFromCart = function (stockId, qty) {
+            axios.post('/Cart/Remove/' + stockId + '/' + qty)
                 .then(res => {
-                    var id = "stock-" + stockId;
-                    var el = document.getElementById(id);
-                    var qty = parseInt(el.innerText);
-                    el.innerText = (qty - 1);
+                    updateCart();
                 })
                 .catch(err => {
                     alert(err.error);
                 });
         }
-        var removeAllFromCart = function (e) {
-            console.log(e);
-            var stockId = e.target.dataset.stockId;
-            axios.post("/Cart/RemoveAll/" + stockId)
+        var updateCart = function () {
+            axios.get('/Cart/GetCartNav')
                 .then(res => {
-                    var id = "product-" + stockId;
-                    var el = document.getElementById(id);
-                    el.outerHTML = "";
-                })
-                .catch(err => {
+                    var html = res.data;
+                    var el = document.getElementById('nav-cart');
+                    el.outerHTML = html;
+                }).
+                catch(err => {
+                    alert(err.error);
+                });
+
+            axios.get('/Cart/GetCartMain')
+                .then(res => {
+                    var html = res.data;
+                    var el = document.getElementById('main-cart');
+                    el.outerHTML = html;
+                }).
+                catch(err => {
                     alert(err.error);
                 });
         }

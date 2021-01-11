@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebStore.Application.Infrastructure;
+using WebStore.Domain.Infrastructure;
 using WebStore.Domain.Models;
 
 namespace WebStore.UI.Infrastructure
@@ -31,7 +32,7 @@ namespace WebStore.UI.Infrastructure
             return customerInfo;
         }
 
-        public void AddCartProduct(int stockId, int qty)
+        public void AddCartProduct(CartProduct cartProduct)
         {
 
             var cartList = new List<CartProduct>();
@@ -40,32 +41,28 @@ namespace WebStore.UI.Infrastructure
             {
                 cartList = JsonConvert.DeserializeObject<List<CartProduct>>(stringObject);
             }
-            if (cartList.Any(x => x.StockId == stockId))
+            if (cartList.Any(x => x.StockId == cartProduct.StockId))
             {
-                cartList.Find(x => x.StockId == stockId).Qty += qty;
+                cartList.Find(x => x.StockId == cartProduct.StockId).Qty += cartProduct.Qty;
             }
             else
             {
-                cartList.Add(new CartProduct
-                {
-                    StockId = stockId,
-                    Qty = qty
-                });
+                cartList.Add(cartProduct);
             }
 
             stringObject = JsonConvert.SerializeObject(cartList);
 
             _session.SetString("cart", stringObject);
         }
-        public List<CartProduct> GetCart()
+        public IEnumerable<TResult> GetCart<TResult>(Func<CartProduct, TResult> selector)
         {
             var stringObject = _session.GetString("cart");
 
             if (string.IsNullOrEmpty(stringObject))
-                return null;
+                return new List<TResult>();
 
-            var cartList = JsonConvert.DeserializeObject<List<CartProduct>>(stringObject);
-            return cartList;
+            var cartList = JsonConvert.DeserializeObject<IEnumerable<CartProduct>>(stringObject);
+            return cartList.Select(selector);
         }
         public void DeleteCartProduct(int stockId, int qty)
         {

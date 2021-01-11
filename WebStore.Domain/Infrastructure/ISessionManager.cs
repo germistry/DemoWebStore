@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WebStore.Domain.Models;
 
-namespace WebStore.Application.Infrastructure
+namespace WebStore.Domain.Infrastructure
 {
     public interface ISessionManager
     {
@@ -9,9 +10,9 @@ namespace WebStore.Application.Infrastructure
         CustomerInfo GetCustomerInfo();
         
         string GetId();
-        void AddCartProduct(int stockId, int qty);
+        void AddCartProduct(CartProduct cartProduct);
         void DeleteCartProduct(int stockId, int qty);
-        List<CartProduct> GetCart();
+        IEnumerable<TResult> GetCart<TResult>(Func<CartProduct, TResult> selector);
 
     }
 }
