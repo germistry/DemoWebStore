@@ -8,6 +8,7 @@ namespace WebStore.Domain.Infrastructure
         Stock GetStockWithProduct(int stockId);
         bool EnoughStock(int stockId, int qty);
         Task PutStockOnHold(int stockId, int qty, string sessionId);
-        Task RemoveStockOnHold(int stockId, int qty, string sessionId);  
+        Task RemoveStockOnHold(int stockId, int qty, string sessionId);
+        Task RemoveStockOnHold(string sessionId);
     }
 }

@@ -72,5 +72,15 @@ namespace WebStore.Database
 
             return _context.SaveChangesAsync();
         }
+
+        public Task RemoveStockOnHold(string sessionId)
+        {
+            var stocksOnHold = _context.StocksOnHold
+                 .Where(x => x.SessionId == sessionId)
+                 .ToList();
+
+            _context.StocksOnHold.RemoveRange(stocksOnHold);
+            return _context.SaveChangesAsync();
+        }
     }
 }

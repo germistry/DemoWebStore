@@ -1,29 +1,25 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using WebStore.Database;
 using WebStore.Domain.Enums;
+using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.OrdersAdmin
 {
     public class GetOrders
     {
-        private ApplicationDBContext _context;
-        public GetOrders(ApplicationDBContext context)
+        private readonly IOrderManager _orderManager;
+        public GetOrders(IOrderManager orderManager)
         {
-            _context = context;
+            _orderManager = orderManager;
         }
 
-        public IEnumerable<Response> Action(int status) =>
-            _context.Orders
-                .Where(x => x.Status == (OrderStatus)status)
-                .Select(x => new Response
-                {
-                    Id = x.Id,
-                    OrderRef = x.OrderRef,
-                    EmailAddress = x.EmailAddress
-                })
-                .ToList();
-        
+        public IEnumerable<Response> Action(int orderStatus) =>
+            _orderManager.GetOrdersByStatus((OrderStatus)orderStatus, x => new Response
+            {
+                Id = x.Id,
+                OrderRef = x.OrderRef,
+                EmailAddress = x.EmailAddress
+            });
+            
         public class Response
         {
             public int Id { get; set; }

@@ -2,27 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebStore.Database;
+using WebStore.Domain.Infrastructure;
 using WebStore.Domain.Models;
 
 namespace WebStore.Application.Orders
 {
     public class CreateOrder
     {
-        private ApplicationDBContext _context;
-        public CreateOrder(ApplicationDBContext context)
+        private readonly IOrderManager _orderManager;
+        private readonly IStockManager _stockManager;
+
+        public CreateOrder(IOrderManager orderManager, IStockManager stockManager)
         {
-            _context = context;
+            _orderManager = orderManager;
+            _stockManager = stockManager;
         }
 
         public async Task<bool> Action(Request request)
         {
-            var stocksOnHold = _context.StocksOnHold
-                .Where(x => x.SessionId == request.SessionId)
-                .ToList();
-
-            _context.StocksOnHold.RemoveRange(stocksOnHold);
-
             var order = new Order
             {
                 OrderRef = CreateOrderRef(),
@@ -43,10 +40,14 @@ namespace WebStore.Application.Orders
                 }).ToList()
             };
 
-            _context.Orders.Add(order);
-
-            return await _context.SaveChangesAsync() > 0;
-
+            var success = await _orderManager.CreateOrder(order) > 0;
+            if(success)
+            {
+                await _stockManager.RemoveStockOnHold(request.SessionId);
+                
+                return true;
+            }
+            return false;
         }
 
         public string CreateOrderRef()
@@ -60,7 +61,7 @@ namespace WebStore.Application.Orders
             {
                 for (int i = 0; i < result.Length; i++)
                     result[i] = chars[random.Next(chars.Length)];
-            } while (_context.Orders.Any(x => x.OrderRef == new string(result)));
+            } while (_orderManager.OrderRefExists(new string(result)));
                         
             return new string(result);
         }

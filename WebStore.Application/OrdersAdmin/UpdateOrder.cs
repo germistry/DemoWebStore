@@ -1,24 +1,19 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using WebStore.Database;
+﻿using System.Threading.Tasks;
+using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.OrdersAdmin
 {
     public class UpdateOrder
     {
-        private ApplicationDBContext _context;
-        public UpdateOrder(ApplicationDBContext context)
+        private readonly IOrderManager _orderManager;
+        public UpdateOrder(IOrderManager orderManager)
         {
-            _context = context;
+            _orderManager = orderManager;
         }
 
-        public async Task<bool> ActionAsync(int id)
+        public Task Action(int id)
         {
-            var order = _context.Orders.FirstOrDefault(x => x.Id == id);
-
-            order.Status = order.Status + 1;
-
-            return await _context.SaveChangesAsync() > 0;
+            return _orderManager.AdvanceOrder(id);
         }
     }
 }

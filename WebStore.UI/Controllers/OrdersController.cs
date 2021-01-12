@@ -27,9 +27,9 @@ namespace WebStore.UI.Controllers
                 Ok(getOrder.Action(id));
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrder(
+        public IActionResult UpdateOrder(
             int id,
             [FromServices] UpdateOrder updateOrder) => 
-                Ok(await updateOrder.ActionAsync(id));
+                Ok(updateOrder.Action(id));
     }
 }
