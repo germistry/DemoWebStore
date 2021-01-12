@@ -1,16 +1,16 @@
 ﻿using System.Threading.Tasks;
-using WebStore.Database;
+using WebStore.Domain.Infrastructure;
 using WebStore.Domain.Models;
 
 namespace WebStore.Application.ProductsAdmin
 {
     public class CreateProduct
     {
-        private ApplicationDBContext _context;
+        private readonly IProductManager _productManager;
 
-        public CreateProduct(ApplicationDBContext context)
+        public CreateProduct(IProductManager productManager)
         {
-            _context = context;
+            _productManager = productManager;
         }
         public async Task<Response> ActionAsync(Request request)
         {
@@ -20,8 +20,7 @@ namespace WebStore.Application.ProductsAdmin
                 Description = request.Description,
                 Value = request.Value
             };
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            await _productManager.CreateProduct(product);
 
             return new Response
             {

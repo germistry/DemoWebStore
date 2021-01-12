@@ -1,27 +1,20 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using WebStore.Database;
+﻿using System.Threading.Tasks;
+using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.StockAdmin
 {
     public class DeleteStock
     {
-        private ApplicationDBContext _context;
+        private readonly IStockManager _stockManager;
 
-        public DeleteStock(ApplicationDBContext context)
+        public DeleteStock(IStockManager stockManager)
         {
-            _context = context;
+            _stockManager = stockManager;
         }
 
-        public async Task<bool> ActionAsync(int id)
+        public Task<int> Action(int id)
         {
-            var stock = _context.Stock.FirstOrDefault(x => x.Id == id);
-            _context.Stock.Remove(stock);
-
-            await _context.SaveChangesAsync();
-
-            return true;
+            return _stockManager.DeleteStock(id);
         }
-
     }
 }

@@ -1,26 +1,27 @@
-﻿using System.Linq;
-using WebStore.Database;
+﻿using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.ProductsAdmin
 {
     public class GetProduct
     {
-        private ApplicationDBContext _context;
+        private readonly IProductManager _productManager;
 
-        public GetProduct(ApplicationDBContext context)
+        public GetProduct(IProductManager productManager)
         {
-            _context = context;
+            _productManager = productManager;
         }
 
-        public ProductViewModel Action(int id) =>
-            _context.Products.Where(x => x.Id == id).Select(x => new ProductViewModel
+        public ProductViewModel Action(int id)
+        {
+            return _productManager.GetProductById(id, x => new ProductViewModel
             {
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
                 Value = x.Value
-            })
-            .FirstOrDefault();
+            });
+        }
+
         public class ProductViewModel
         {
             public int Id { get; set; }

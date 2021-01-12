@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using WebStore.Domain.Enums;
 using WebStore.Domain.Infrastructure;
 using WebStore.Domain.Models;
 
-namespace WebStore.Database
+namespace WebStore.Database.Interfaces
 {
     public class OrderManager : IOrderManager
     {
@@ -21,21 +22,21 @@ namespace WebStore.Database
         {
             return _context.Orders.Any(x => x.OrderRef == orderRef);
         }
-        private TResult GetOrder<TResult>(Func<Order, bool> condition, Func<Order, TResult> selector)
+        private TResult GetOrder<TResult>(Expression<Func<Order, bool>> condition, Expression<Func<Order, TResult>> selector)
         {
             return _context.Orders
-                .Where(x => condition(x))
+                .Where(condition)
                 .Include(x => x.OrderStocks)
                     .ThenInclude(x => x.Stock)
-                        .ThenInclude(x => x.Product).AsEnumerable()
+                        .ThenInclude(x => x.Product)
                 .Select(selector)
                 .FirstOrDefault();
         }
-        public TResult GetOrderByRef<TResult>(string orderRef, Func<Order, TResult> selector)
+        public TResult GetOrderByRef<TResult>(string orderRef, Expression<Func<Order, TResult>> selector)
         {
             return GetOrder(order => order.OrderRef == orderRef, selector);
         }
-        public TResult GetOrderById<TResult>(int id, Func<Order, TResult> selector)
+        public TResult GetOrderById<TResult>(int id, Expression<Func<Order, TResult>> selector)
         {
             return GetOrder(order => order.Id == id, selector); 
         }

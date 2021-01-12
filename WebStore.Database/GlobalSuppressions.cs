@@ -6,3 +6,6 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Style", "IDE0054:Use compound assignment", Justification = "<Pending>", Scope = "member", Target = "~M:WebStore.Database.OrderManager.AdvanceOrder(System.Int32)~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Style", "IDE0054:Use compound assignment", Justification = "<Pending>", Scope = "member", Target = "~M:WebStore.Database.StockManager.ActionExpiredStockOnHold~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Style", "IDE0054:Use compound assignment", Justification = "<Pending>", Scope = "member", Target = "~M:WebStore.Database.Interfaces.OrderManager.AdvanceOrder(System.Int32)~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Style", "IDE0054:Use compound assignment", Justification = "<Pending>", Scope = "member", Target = "~M:WebStore.Database.Interfaces.StockManager.ActionExpiredStockOnHold~System.Threading.Tasks.Task")]

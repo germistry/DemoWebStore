@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebStore.Database;
+using WebStore.Domain.Infrastructure;
 using WebStore.Domain.Models;
 
 namespace WebStore.Application.StockAdmin
 {
     public class UpdateStock
     {
-        private ApplicationDBContext _context;
-        public UpdateStock(ApplicationDBContext context)
+        private readonly IStockManager _stockManager;
+        public UpdateStock(IStockManager stockManager)
         {
-            _context = context;
+            _stockManager = stockManager;
         }
 
         public async Task<Response> ActionAsync(Request request)
@@ -28,8 +28,7 @@ namespace WebStore.Application.StockAdmin
                 });
             }
 
-            _context.Stock.UpdateRange(stocks);
-            await _context.SaveChangesAsync();
+            await _stockManager.UpdateStockRange(stocks);
 
             return new Response
             {

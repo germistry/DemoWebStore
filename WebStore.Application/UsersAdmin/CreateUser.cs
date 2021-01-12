@@ -1,36 +1,26 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.UsersAdmin
 {
     public class CreateUser
     {
-        private UserManager<IdentityUser> _userManager;
-        public CreateUser(UserManager<IdentityUser> userManager)
+        private readonly IUserManager _userManager;
+        public CreateUser(IUserManager userManager)
         {
             _userManager = userManager;
         }
 
         public async Task<bool> Action(Request request)
         {
-            var managerUser = new IdentityUser()
-            {
-                UserName = request.UserName
-            };
-
-            await _userManager.CreateAsync(managerUser, "password");
-
-            var managerClaim = new Claim("Role", "Manager");
-
-            await _userManager.AddClaimAsync(managerUser, managerClaim);
-            
+            await _userManager.CreateManagerUser(request.UserName, request.Password);
             return true;
         }
 
         public class Request
         {
             public string UserName { get; set; }
+            public string Password { get; set; }
         }
     }
 }

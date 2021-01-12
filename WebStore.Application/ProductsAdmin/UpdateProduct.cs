@@ -1,26 +1,24 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using WebStore.Database;
+﻿using System.Threading.Tasks;
+using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.ProductsAdmin
 {
     public class UpdateProduct
     {
-        private ApplicationDBContext _context;
-
-        public UpdateProduct(ApplicationDBContext context)
-        { 
-            _context = context;
+        private readonly IProductManager _productManager;
+        public UpdateProduct(IProductManager productManager)
+        {
+            _productManager = productManager;
         }
         public async Task<Response> ActionAsync(Request request)
         {
-            var product = _context.Products.FirstOrDefault(x => x.Id == request.Id);
-
+            var product = _productManager.GetProductById(request.Id, x => x);
+            
             product.Name = request.Name;
             product.Description = request.Description;
             product.Value = request.Value;
 
-            await _context.SaveChangesAsync();
+            await _productManager.UpdateProduct(product);
 
             return new Response
             {

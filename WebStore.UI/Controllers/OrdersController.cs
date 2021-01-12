@@ -1,12 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebStore.Application.OrdersAdmin;
-using WebStore.Database;
 
 namespace WebStore.UI.Controllers
 {

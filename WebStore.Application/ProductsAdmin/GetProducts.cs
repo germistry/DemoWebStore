@@ -1,26 +1,28 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using WebStore.Database;
+using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.ProductsAdmin
 {
     public class GetProducts
     {
-        private ApplicationDBContext _context;
+        private readonly IProductManager _productManager;
 
-        public GetProducts(ApplicationDBContext context)
+        public GetProducts(IProductManager productManager)
         {
-            _context = context;
+            _productManager = productManager;
         }
 
-        public IEnumerable<ProductViewModel> Action() =>
-            _context.Products.ToList().Select(x => new ProductViewModel
+        public IEnumerable<ProductViewModel> Action()
+        {
+            return _productManager.GetProductsWithStock(x => new ProductViewModel
             {
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
                 Value = x.Value
             });
+        }
+
         public class ProductViewModel
         {
             public int Id { get; set; }

@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Domain.Infrastructure;
 using WebStore.Domain.Models;
 
-namespace WebStore.Database
+namespace WebStore.Database.Interfaces
 {
     public class StockManager : IStockManager
     {
@@ -15,6 +16,24 @@ namespace WebStore.Database
         {
             _context = context;
         }
+        public Task<int> CreateStock(Stock stock)
+        {
+            _context.Stock.Add(stock);
+            return _context.SaveChangesAsync();
+        }
+        public Task<int> DeleteStock(int id)
+        {
+            var stock = _context.Stock.FirstOrDefault(x => x.Id == id);
+            _context.Stock.Remove(stock);
+
+            return _context.SaveChangesAsync();
+        }
+        public Task<int> UpdateStockRange(List<Stock> stocks)
+        {
+            _context.Stock.UpdateRange(stocks);
+            return _context.SaveChangesAsync();
+        }
+
         public Stock GetStockWithProduct(int stockId)
         {
             return _context.Stock
@@ -27,7 +46,6 @@ namespace WebStore.Database
                     .FirstOrDefault(x => x.Id == stockId)
                     .Qty >= qty;
         }
-
         public Task PutStockOnHold(int stockId, int qty, string sessionId)
         {
             _context.Stock.FirstOrDefault(x => x.Id == stockId).Qty -= qty;
@@ -72,7 +90,6 @@ namespace WebStore.Database
 
             return _context.SaveChangesAsync();
         }
-
         public Task RemoveStockOnHold(string sessionId)
         {
             var stocksOnHold = _context.StocksOnHold
@@ -81,6 +98,28 @@ namespace WebStore.Database
 
             _context.StocksOnHold.RemoveRange(stocksOnHold);
             return _context.SaveChangesAsync();
+        }
+        public Task ActionExpiredStockOnHold()
+        {
+            var stocksOnHold = _context.StocksOnHold
+                .Where(x => x.ExpiryDate < DateTime.Now)
+                .ToList();
+            if (stocksOnHold.Count > 0)
+            {
+                var stocksToReturn = _context.Stock
+                    .AsEnumerable()
+                    .Where(x => stocksOnHold
+                        .Any(y => y.StockId == x.Id))
+                    .ToList();
+                foreach (var stock in stocksToReturn)
+                {
+                    stock.Qty = stock.Qty + stocksOnHold.FirstOrDefault(x => x.StockId == stock.Id).Qty;
+                }
+                _context.StocksOnHold.RemoveRange(stocksOnHold);
+
+                return _context.SaveChangesAsync();
+            }
+            return Task.CompletedTask;
         }
     }
 }

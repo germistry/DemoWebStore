@@ -1,23 +1,19 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using WebStore.Database;
+﻿using System.Threading.Tasks;
+using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.ProductsAdmin
 {
     public class DeleteProduct
     {
-        private ApplicationDBContext _context;
+        private readonly IProductManager _productManager;
 
-        public DeleteProduct(ApplicationDBContext context)
+        public DeleteProduct(IProductManager productManager)
         {
-            _context = context;
+            _productManager = productManager;
         }
-        public async Task<bool> ActionAsync(int id)
+        public Task<int> Action(int id)
         {
-            var product = _context.Products.FirstOrDefault(x => x.Id == id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-            return true;
+            return _productManager.DeleteProduct(id);
         }
     }
 }

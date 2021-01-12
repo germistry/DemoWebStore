@@ -1,30 +1,29 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using WebStore.Database;
+using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.Products
 {
     public class GetProducts
     {
-        private ApplicationDBContext _context;
+        private readonly IProductManager _productManager;
 
-        public GetProducts(ApplicationDBContext context)
+        public GetProducts(IProductManager productManager)
         {
-            _context = context;
+            _productManager = productManager;
         }
 
-        public IEnumerable<ProductViewModel> Action() =>
-            _context.Products
-                .Include(x => x.Stock).AsEnumerable()
-                .Select(x => new ProductViewModel
-                {
-                    Name = x.Name,
-                    Description = x.Description,
-                    Value = x.Value,
-                    StockCount = x.Stock.Sum(y => y.Qty)
-                })
-                .ToList();
+        public IEnumerable<ProductViewModel> Action()
+        {
+            return _productManager.GetProductsWithStock(x => new ProductViewModel
+            {
+                Name = x.Name,
+                Description = x.Description,
+                Value = x.Value,
+                StockCount = x.Stock.Sum(y => y.Qty)
+            });
+        }
+
         public class ProductViewModel
         {
             public string Name { get; set; }

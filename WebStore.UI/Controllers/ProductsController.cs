@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WebStore.Application.ProductsAdmin;
-using WebStore.Database;
+
 
 namespace WebStore.UI.Controllers
 {
@@ -35,7 +31,7 @@ namespace WebStore.UI.Controllers
         public async Task<IActionResult> DeleteProduct(
             int id, 
             [FromServices] DeleteProduct deleteProduct) =>
-                Ok(await deleteProduct.ActionAsync(id));
+                Ok(await deleteProduct.Action(id));
 
         [HttpPut("")]
         public async Task<IActionResult> UpdateProduct(

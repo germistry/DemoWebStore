@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Stripe;
 using WebStore.Application.Cart;
 using WebStore.Application.Orders;
-using WebStore.Database;
 
 namespace WebStore.UI.Pages.Checkout
 {
@@ -14,12 +13,9 @@ namespace WebStore.UI.Pages.Checkout
     {
         public string PublicKey { get; }
 
-        private ApplicationDBContext _context;
-
-        public PaymentModel(IConfiguration config, ApplicationDBContext context)
+        public PaymentModel(IConfiguration config)
         {
             PublicKey = config["Stripe:PublicKey"].ToString();
-            _context = context;
         }
                
         public IActionResult OnGet([FromServices] GetCustomerInfo getCustomerInfo)
@@ -32,7 +28,11 @@ namespace WebStore.UI.Pages.Checkout
             return Page();
         }
         //TODO Implement Stripe Payment for V3 (currently working only on v1)
-        public async Task<IActionResult> OnPost([FromServices] GetCartOrder getCartOrder, string stripeEmail, string stripeToken)
+        public async Task<IActionResult> OnPost(
+            [FromServices] GetCartOrder getCartOrder, 
+            [FromServices] CreateOrder createOrder,
+            string stripeEmail, 
+            string stripeToken)
         {
             var customers = new CustomerService();
             var charges = new ChargeService();
@@ -55,7 +55,7 @@ namespace WebStore.UI.Pages.Checkout
 
             var sessionId = HttpContext.Session.Id;
 
-            await new CreateOrder(_context).Action(new CreateOrder.Request
+            await createOrder.Action(new CreateOrder.Request
             {
                 StripeRef = charge.Id,
                 SessionId = sessionId,

@@ -9,7 +9,7 @@ namespace WebStore.UI.Controllers
     [Authorize(Policy = "Admin")]
     public class UsersController : Controller
     {
-        private CreateUser _createUser;
+        private readonly CreateUser _createUser;
         public UsersController(CreateUser createUser)
         {
             _createUser = createUser;

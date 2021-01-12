@@ -1,16 +1,16 @@
 ﻿using System.Threading.Tasks;
-using WebStore.Database;
+using WebStore.Domain.Infrastructure;
 using WebStore.Domain.Models;
 
 namespace WebStore.Application.StockAdmin
 {
     public class CreateStock
     {
-        private ApplicationDBContext _context;
+        private readonly IStockManager _stockManager;
 
-        public CreateStock(ApplicationDBContext context)
+        public CreateStock(IStockManager stockManager)
         {
-            _context = context;
+            _stockManager = stockManager;
         }
 
         public async Task<Response> ActionAsync(Request request)
@@ -22,8 +22,7 @@ namespace WebStore.Application.StockAdmin
                 Qty = request.Qty
             };
 
-            _context.Stock.Add(stock);
-            await _context.SaveChangesAsync();
+            await _stockManager.CreateStock(stock);
 
             return new Response 
             { 

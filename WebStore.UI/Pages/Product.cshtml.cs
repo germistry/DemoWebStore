@@ -1,29 +1,24 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using WebStore.Database;
 using WebStore.Application.Products;
 using WebStore.Application.Cart;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebStore.UI.Pages
 {
     public class ProductModel : PageModel
     {
-        private ApplicationDBContext _context;
-
-        public ProductModel(ApplicationDBContext context)
-        {
-            _context = context;
-        }
-        
+      
         [BindProperty]
         public AddToCart.Request CartViewModel { get; set; }
 
         public GetProduct.ProductViewModel Product { get; set; }
 
-        public async Task<IActionResult> OnGet(string name)
+        public async Task<IActionResult> OnGet(
+            [FromServices] GetProduct getProduct,
+            string name)
         {
-            Product = await new GetProduct(_context).Action(name.Replace("-", " "));
+            Product = await getProduct.Action(name.Replace("-", " "));
             if (Product == null)
                 return RedirectToPage("/Index");
             else
