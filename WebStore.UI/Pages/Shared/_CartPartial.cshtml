@@ -5,7 +5,7 @@
         <h2 class="title">Cart</h2>
         @foreach (var product in Model)
         {
-            string lineValue = $"{product.Value * product.Qty}";
+            string lineValue = $"{product.MinValue * product.Qty}";
 
             <article class="media">
                 <figure class="media-left">
@@ -17,7 +17,7 @@
                     <p class="title">@product.Name</p>
                     <div class="level">
                         <div class="level-item">@product.StockId</div>
-                        <div class="level-item">@product.StockDescription</div>
+                        <div class="level-item">@product.StockName</div>
                         <div class="level-item">
                             <div class="columns is-mobile">
                                 <div class="column">
@@ -41,7 +41,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="level-item">$@product.Value</div>
+                        <div class="level-item">$@product.MinValue</div>
                         <div class="level-item">$@lineValue</div>
                         <div class="level-item">
                             <a class="has-text-danger"

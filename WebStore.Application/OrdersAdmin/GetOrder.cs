@@ -34,9 +34,9 @@ namespace WebStore.Application.OrdersAdmin
                     Name = y.Stock.Product.Name,
                     Description = y.Stock.Product.Description,
                     Qty = y.Qty,
-                    StockDescription = y.Stock.Description
+                    StockName = y.Stock.StockName
                 }),
-                TotalValue = x.OrderStocks.Sum(y => y.Stock.Product.Value * y.Qty).ToString("N2")
+                TotalValue = x.OrderStocks.Sum(y => y.Stock.Product.MinValue * y.Qty).ToString("N2")
             }); 
 
         public class Response
@@ -60,7 +60,7 @@ namespace WebStore.Application.OrdersAdmin
             public string Name { get; set; }
             public string Description { get; set; }
             public int Qty { get; set; }
-            public string StockDescription { get; set; }
+            public string StockName { get; set; }
 
         }
     }

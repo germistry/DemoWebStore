@@ -6,9 +6,9 @@
         objectIndex: 0,
         productModel: {
             id: 0,
-            name: "Product Name",
-            description: "Product Description",
-            value: 1.99
+            name: "",
+            description: "",
+            minValue: 0.00
         },
         products: []
     },
@@ -26,7 +26,8 @@
                         id: product.id,
                         name: product.name,
                         description: product.description,
-                        value: product.value,
+                        minValue: product.minValue
+                        
                     };
                 })
                 .catch(err => {

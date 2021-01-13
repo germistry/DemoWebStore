@@ -5,8 +5,8 @@
         selectedProduct: null,
         newStock: {
             productId: 0,
-            description: "Size",
-            qty: 10
+            stockName: "",
+            qty: 0
         }
     },
     mounted() {
@@ -33,7 +33,7 @@
                 stock: this.selectedProduct.stock.map(x => {
                     return {
                         id: x.id,
-                        description: x.description,
+                        stockName: x.stockName,
                         qty: x.qty,
                         productId: this.selectedProduct.id
                     };

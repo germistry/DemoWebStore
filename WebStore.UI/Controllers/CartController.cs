@@ -40,7 +40,7 @@ namespace WebStore.UI.Controllers
         [HttpGet]
         public IActionResult GetCartNav([FromServices] GetCart getCart)
         {
-            var totalValue = getCart.Action().Sum(x => x.Value * x.Qty);
+            var totalValue = getCart.Action().Sum(x => x.MinValue * x.Qty);
             return PartialView("Components/Cart/Small", $"${totalValue}");
         }
         [HttpGet]

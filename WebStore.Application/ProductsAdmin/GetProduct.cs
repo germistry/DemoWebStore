@@ -19,7 +19,8 @@ namespace WebStore.Application.ProductsAdmin
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
-                Value = x.Value
+                MinValue = x.MinValue
+                
             });
         }
 
@@ -28,7 +29,8 @@ namespace WebStore.Application.ProductsAdmin
             public int Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
-            public decimal Value { get; set; }
+            public decimal MinValue { get; set; }
+            
         }
     }
 }

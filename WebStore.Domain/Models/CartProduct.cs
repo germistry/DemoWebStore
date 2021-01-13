@@ -6,8 +6,8 @@ namespace WebStore.Domain.Models
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public int StockId { get; set; }
-        public string StockDescription { get; set; }
+        public string StockName { get; set; }
         public int Qty { get; set; }
-        public decimal Value { get; set; }
+        public decimal MinValue { get; set; }
     }
 }

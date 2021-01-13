@@ -19,7 +19,7 @@ namespace WebStore.Application.StockAdmin
             var stock = new Stock
             {
                 ProductId = request.ProductId,
-                Description = request.Description,
+                StockName = request.StockName,
                 Qty = request.Qty
             };
 
@@ -28,7 +28,7 @@ namespace WebStore.Application.StockAdmin
             return new Response 
             { 
                 Id = stock.Id,
-                Description = stock.Description,
+                StockName = stock.StockName,
                 Qty = stock.Qty
             };
         }
@@ -36,14 +36,14 @@ namespace WebStore.Application.StockAdmin
         public class Request
         {
             public int ProductId { get; set; }
-            public string Description { get; set; }
+            public string StockName { get; set; }
             public int Qty { get; set; }
         }
 
         public class Response
         {
             public int Id { get; set; }
-            public string Description { get; set; }
+            public string StockName { get; set; }
             public int Qty { get; set; }
         }
     }

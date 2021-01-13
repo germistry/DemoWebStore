@@ -25,12 +25,12 @@ namespace WebStore.Application.Products
             {
                 Name = x.Name,
                 Description = x.Description,
-                Value = x.Value.GetValueAsString(),
+                MinValue = x.MinValue.GetValueAsString(),
 
                 Stock = x.Stock.Select(y => new StockViewModel
                 {
                     Id = y.Id,
-                    Description = y.Description,
+                    StockName = y.StockName,
                     Qty = y.Qty
                 })
             });
@@ -40,14 +40,14 @@ namespace WebStore.Application.Products
         {
             public string Name { get; set; }
             public string Description { get; set; }
-            public string Value { get; set; }
+            public string MinValue { get; set; }
             public IEnumerable<StockViewModel> Stock { get; set; }
         }
 
         public class StockViewModel
         {
             public int Id { get; set; }
-            public string Description { get; set; }
+            public string StockName { get; set; }
             public int Qty { get; set; }
         }
     }

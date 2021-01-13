@@ -31,9 +31,9 @@ namespace WebStore.Application.Cart
                 ProductId = stock.ProductId,
                 ProductName = stock.Product.Name,
                 StockId = stock.Id,
-                StockDescription = stock.Description,
+                StockName = stock.StockName,
                 Qty = request.Qty,
-                Value = stock.Product.Value
+                MinValue = stock.Product.MinValue
 
             };
 

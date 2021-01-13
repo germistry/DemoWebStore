@@ -19,11 +19,12 @@ namespace WebStore.Application.StockAdmin
             return _productManager.GetProductsWithStock(x => new ProductViewModel
             {
                 Id = x.Id,
+                Name = x.Name,
                 Description = x.Description,
                 Stock = x.Stock.Select(y => new StockViewModel
                 {
                     Id = y.Id,
-                    Description = y.Description,
+                    StockName = y.StockName,
                     Qty = y.Qty
                 })
             });
@@ -31,13 +32,14 @@ namespace WebStore.Application.StockAdmin
         public class StockViewModel
         { 
             public int Id { get; set; }
-            public string Description { get; set; }
+            public string StockName { get; set; }
             public int Qty { get; set; }
         }
 
         public class ProductViewModel
         {
             public int Id { get; set; }
+            public string Name { get; set; }
             public string Description { get; set; }
             public IEnumerable<StockViewModel> Stock { get; set; }
         }

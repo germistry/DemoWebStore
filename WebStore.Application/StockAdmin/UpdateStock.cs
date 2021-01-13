@@ -24,7 +24,7 @@ namespace WebStore.Application.StockAdmin
                 {
                     Id = stock.Id,
                     ProductId = stock.ProductId,
-                    Description = stock.Description,
+                    StockName = stock.StockName,
                     Qty = stock.Qty
                 });
             }
@@ -41,7 +41,7 @@ namespace WebStore.Application.StockAdmin
         {
             public int Id { get; set; }
             public int ProductId { get; set; }
-            public string Description { get; set; }
+            public string StockName { get; set; }
             public int Qty { get; set; }
         }
 

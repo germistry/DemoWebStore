@@ -19,7 +19,7 @@ namespace WebStore.Application.ProductsAdmin
             {
                 Name = request.Name,
                 Description = request.Description,
-                Value = request.Value
+                MinValue = request.MinValue
             };
             await _productManager.CreateProduct(product);
 
@@ -28,21 +28,21 @@ namespace WebStore.Application.ProductsAdmin
                 Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
-                Value = product.Value
+                MinValue = product.MinValue
             };
         }
         public class Request
         {
             public string Name { get; set; }
             public string Description { get; set; }
-            public decimal Value { get; set; }
+            public decimal MinValue { get; set; }
         }
         public class Response
         {
             public int Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
-            public decimal Value { get; set; }
+            public decimal MinValue { get; set; }
         }
     }  
 }

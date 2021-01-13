@@ -20,7 +20,7 @@ namespace WebStore.Application.Products
             {
                 Name = x.Name,
                 Description = x.Description,
-                Value = x.Value,
+                MinValue = x.MinValue,
                 StockCount = x.Stock.Sum(y => y.Qty)
             });
         }
@@ -29,7 +29,7 @@ namespace WebStore.Application.Products
         {
             public string Name { get; set; }
             public string Description { get; set; }
-            public decimal Value { get; set; }
+            public decimal MinValue { get; set; }
             public int StockCount { get; set; }
             
         }

@@ -9,14 +9,14 @@
             <tr>
                 <th>Id</th>
                 <th>Product</th>
-                <th>Value</th>
+                <th>Min Value</th>
                 <th></th>
                 <th></th>
             </tr>
             <tr v-for="(product, index) in products">
                 <td>{{product.id}}</td>
                 <td>{{product.name}}</td>
-                <td>{{product.value}}</td>
+                <td>{{product.minValue}}</td>
                 <td><a @@click="editProduct(product.id, index)">Edit</a></td>
                 <td><a @@click="deleteProduct(product.id, index)">Remove</a></td>
             </tr>
@@ -26,19 +26,19 @@
         <div class="field">
             <label class="label">Product Name</label>
             <div class="control">
-                <input class="input" v-model="productModel.name" />
+                <input class="input" placeholder="Product Name" v-model="productModel.name" />
             </div>
         </div>
         <div class="field">
             <label class="label">Product Description</label>
             <div class="control">
-                <input class="input" v-model="productModel.description" />
+                <input class="input" placeholder="Product Description" v-model="productModel.description" />
             </div>
         </div>
         <div class="field">
-            <label class="label">Value</label>
+            <label class="label">Min Value</label>
             <div class="control">
-                <input class="input" v-model.number="productModel.value" />
+                <input class="input" placeholder="0.00" v-model.number="productModel.minValue" />
             </div>
         </div>
         <button class="button is-success" @@click="createProduct" v-if="!productModel.id">Create Product</button>

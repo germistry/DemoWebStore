@@ -19,6 +19,7 @@ namespace WebStore.Database
         {
             base.OnModelCreating(builder);
             builder.Entity<OrderStock>().HasKey(x => new { x.StockId, x.OrderId });
+            builder.Entity<Product>().Property(p => p.MinValue).HasColumnType("decimal(18,2)");
         }
     }
 }

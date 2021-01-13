@@ -18,22 +18,22 @@ namespace WebStore.Application.Cart
             return _sessionManager.GetCart(x => new Response
                 {
                     Name = x.ProductName,
-                    Value = x.Value,
-                    ValueAsString = x.Value.GetValueAsString(),
+                    MinValue = x.MinValue,
+                    ValueAsString = x.MinValue.GetValueAsString(),
                     Qty = x.Qty,
                     StockId = x.StockId,
-                    StockDescription = x.StockDescription
+                    StockName = x.StockName
                 });
         }
 
         public class Response
         {
             public string Name { get; set; }
-            public decimal Value { get; set; }
+            public decimal MinValue { get; set; }
             public string ValueAsString { get; set; }
             public int Qty { get; set; }
             public int StockId { get; set; }
-            public string StockDescription { get; set; }
+            public string StockName { get; set; }
         }
     }
 }

@@ -23,7 +23,7 @@
                             <label class="label">Price</label>
                         </div>
                         <div class="field-body">
-                            <label class="label is-large">@Model.Product.Value</label>
+                            <label class="label is-large">@Model.Product.MinValue</label>
                         </div>
                     </div>
                     <form method="post">
@@ -39,7 +39,7 @@
                                                 @foreach (var stock in Model.Product.Stock)
                                                 {
                                                     bool disabled = stock.Qty <= 0;
-                                                    <option value="@stock.Id" disabled="@disabled">@stock.Description</option>
+                                                    <option value="@stock.Id" disabled="@disabled">@stock.StockName</option>
                                                 }
                                             </select>
                                         </div>
@@ -87,22 +87,5 @@
     </div>
 </div>
 
-<script>
-    var toggleStock = function (e) {
-        console.log(e);
-        var stockToHide = document.querySelectorAll('.low-stock');
-        stockToHide.forEach(function (e) {
-            e.classList.add('is-hidden');
-        });
-        showLowStock(e.target.value);
-        
-    }
-    var showLowStock = function (id) {
-        var stockToShow = document.getElementById('low-stock-' + id);
-        if (stockToShow !== null && stockToShow !== undefined) {
-            stockToShow.classList.remove('is-hidden');
-        }
-    }
-    showLowStock(document.getElementById('CartViewModel_StockId').value);
-</script>
+<script src="~/js/product.js"></script>
 
