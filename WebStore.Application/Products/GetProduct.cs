@@ -5,6 +5,7 @@ using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.Products
 {
+    [Service]
     public class GetProduct
     {
         private readonly IStockManager _stockManager;

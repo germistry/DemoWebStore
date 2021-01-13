@@ -13,6 +13,7 @@ namespace WebStore.Domain.Infrastructure
         void AddCartProduct(CartProduct cartProduct);
         void DeleteCartProduct(int stockId, int qty);
         IEnumerable<TResult> GetCart<TResult>(Func<CartProduct, TResult> selector);
+        void ClearCart();
 
     }
 }

@@ -7,6 +7,7 @@ using WebStore.Domain.Models;
 
 namespace WebStore.Application.Orders
 {
+    [Service]
     public class CreateOrder
     {
         private readonly IOrderManager _orderManager;

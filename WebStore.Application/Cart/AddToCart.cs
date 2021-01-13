@@ -4,6 +4,7 @@ using WebStore.Domain.Models;
 
 namespace WebStore.Application.Cart
 {
+    [Service]
     public class AddToCart
     {
         private readonly ISessionManager _sessionManager;

@@ -3,6 +3,7 @@ using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.StockAdmin
 {
+    [Service]
     public class DeleteStock
     {
         private readonly IStockManager _stockManager;

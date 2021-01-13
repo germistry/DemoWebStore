@@ -3,6 +3,7 @@ using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.Cart
 {
+    [Service]
     public class DeleteFromCart
     {
         private readonly ISessionManager _sessionManager;

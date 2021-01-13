@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<WebStore.Application.Cart.GetCart.Response>
 
-<div id="main-cart" class="columns">
-    <div class="column is-12 is-multiline">
+<div id="main-cart" class="columns is-multiline">
+    <div class="column is-12">
         <h2 class="title">Cart</h2>
         @foreach (var product in Model)
         {
@@ -25,7 +25,7 @@
                                             type="button"
                                             onclick="minusOneFromCart(event)"
                                             data-stock-id="@product.StockId">
-                                        <i class="fas fa-minus"></i>
+                                        -
                                     </button>
                                 </div>
                                 <div class="column is-align-self-center" id="stock-qty-@(product.StockId)">
@@ -36,7 +36,7 @@
                                             type="button"
                                             onclick="addOneToCart(event)"
                                             data-stock-id="@product.StockId">
-                                        <i class="fas fa-plus"></i>
+                                        +
                                     </button>
                                 </div>
                             </div>

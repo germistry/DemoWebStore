@@ -4,6 +4,7 @@ using WebStore.Domain.Models;
 
 namespace WebStore.Application.ProductsAdmin
 {
+    [Service]
     public class CreateProduct
     {
         private readonly IProductManager _productManager;

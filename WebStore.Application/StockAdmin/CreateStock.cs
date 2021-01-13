@@ -4,6 +4,7 @@ using WebStore.Domain.Models;
 
 namespace WebStore.Application.StockAdmin
 {
+    [Service]
     public class CreateStock
     {
         private readonly IStockManager _stockManager;

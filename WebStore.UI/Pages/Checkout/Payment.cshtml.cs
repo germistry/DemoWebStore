@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Stripe;
 using WebStore.Application.Cart;
 using WebStore.Application.Orders;
+using WebStore.Domain.Infrastructure;
 
 namespace WebStore.UI.Pages.Checkout
 {
@@ -31,6 +32,7 @@ namespace WebStore.UI.Pages.Checkout
         public async Task<IActionResult> OnPost(
             [FromServices] GetCartOrder getCartOrder, 
             [FromServices] CreateOrder createOrder,
+            [FromServices] ISessionManager sessionManager,
             string stripeEmail, 
             string stripeToken)
         {
@@ -74,7 +76,7 @@ namespace WebStore.UI.Pages.Checkout
                     Qty = x.Qty
                 }).ToList()
             });
-
+            sessionManager.ClearCart();
             return RedirectToPage("/Index");
         }
 

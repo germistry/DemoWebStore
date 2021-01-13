@@ -2,6 +2,7 @@
 
 namespace WebStore.Application.Cart
 {
+    [Service]
     public class GetCustomerInfo
     {
         private readonly ISessionManager _sessionManager;

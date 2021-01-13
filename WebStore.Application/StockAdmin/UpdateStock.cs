@@ -5,6 +5,7 @@ using WebStore.Domain.Models;
 
 namespace WebStore.Application.StockAdmin
 {
+    [Service]
     public class UpdateStock
     {
         private readonly IStockManager _stockManager;

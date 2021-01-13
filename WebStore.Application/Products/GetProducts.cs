@@ -4,6 +4,7 @@ using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.Products
 {
+    [Service]
     public class GetProducts
     {
         private readonly IProductManager _productManager;

@@ -3,6 +3,7 @@ using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.ProductsAdmin
 {
+    [Service]
     public class DeleteProduct
     {
         private readonly IProductManager _productManager;

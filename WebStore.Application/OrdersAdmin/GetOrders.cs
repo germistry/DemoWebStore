@@ -4,6 +4,7 @@ using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.OrdersAdmin
 {
+    [Service]
     public class GetOrders
     {
         private readonly IOrderManager _orderManager;
