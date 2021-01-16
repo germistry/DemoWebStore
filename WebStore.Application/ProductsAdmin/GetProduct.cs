@@ -19,8 +19,8 @@ namespace WebStore.Application.ProductsAdmin
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
-                MinValue = x.MinValue
-                
+                MinValue = x.MinValue,
+                CurrentImage = x.Image
             });
         }
 
@@ -30,7 +30,8 @@ namespace WebStore.Application.ProductsAdmin
             public string Name { get; set; }
             public string Description { get; set; }
             public decimal MinValue { get; set; }
-            
+            public string CurrentImage { get; set; }
+
         }
     }
 }

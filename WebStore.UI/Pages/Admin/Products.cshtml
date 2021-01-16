@@ -41,6 +41,12 @@
                 <input class="input" placeholder="0.00" v-model.number="productModel.minValue" />
             </div>
         </div>
+        <div class="field">
+            <label class="label">Current Image: {{productModel.currentImage}}</label>
+            <div class="control">
+                <input class="input" type="file" id="file" ref="file" v-on:change="handleFileUpload()" />
+            </div>
+        </div>
         <button class="button is-success" @@click="createProduct" v-if="!productModel.id">Create Product</button>
         <button class="button is-warning" @@click="updateProduct" v-else>Update Product</button>
         <button class="button" @@click="cancel">Cancel</button>

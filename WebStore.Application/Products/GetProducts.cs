@@ -21,6 +21,7 @@ namespace WebStore.Application.Products
                 Name = x.Name,
                 Description = x.Description,
                 MinValue = x.MinValue,
+                Image = x.Image,
                 StockCount = x.Stock.Sum(y => y.Qty)
             });
         }
@@ -31,7 +32,8 @@ namespace WebStore.Application.Products
             public string Description { get; set; }
             public decimal MinValue { get; set; }
             public int StockCount { get; set; }
-            
+            public string Image { get; set; }
+
         }
     }
 }

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using WebStore.Application.Products;
 
-
 namespace WebStore.UI.Pages
 {
     public class AllProductsModel : PageModel

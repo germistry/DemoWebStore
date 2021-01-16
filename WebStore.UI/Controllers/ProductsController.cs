@@ -23,7 +23,7 @@ namespace WebStore.UI.Controllers
 
         [HttpPost("")]
         public async Task<IActionResult> CreateProduct(
-            [FromBody] CreateProduct.Request request,
+            CreateProduct.Request request,
             [FromServices] CreateProduct createProduct) =>
                 Ok(await createProduct.ActionAsync(request));
 
@@ -35,7 +35,7 @@ namespace WebStore.UI.Controllers
 
         [HttpPut("")]
         public async Task<IActionResult> UpdateProduct(
-            [FromBody] UpdateProduct.Request request,
+            UpdateProduct.Request request,
             [FromServices] UpdateProduct updateProduct) =>
                 Ok(await updateProduct.ActionAsync(request));
     }

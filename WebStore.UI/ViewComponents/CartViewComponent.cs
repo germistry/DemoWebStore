@@ -6,7 +6,7 @@ namespace WebStore.UI.ViewComponents
 {
     public class CartViewComponent : ViewComponent
     {
-        private GetCart _getCart;
+        private readonly GetCart _getCart;
         public CartViewComponent(GetCart getCart)
         {
             _getCart = getCart;

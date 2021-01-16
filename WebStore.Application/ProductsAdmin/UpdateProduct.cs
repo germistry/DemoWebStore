@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.ProductsAdmin
@@ -7,9 +8,12 @@ namespace WebStore.Application.ProductsAdmin
     public class UpdateProduct
     {
         private readonly IProductManager _productManager;
-        public UpdateProduct(IProductManager productManager)
+        private readonly IFileManager _fileManager;
+
+        public UpdateProduct(IProductManager productManager, IFileManager fileManager)
         {
             _productManager = productManager;
+            _fileManager = fileManager;
         }
         public async Task<Response> ActionAsync(Request request)
         {
@@ -18,7 +22,10 @@ namespace WebStore.Application.ProductsAdmin
             product.Name = request.Name;
             product.Description = request.Description;
             product.MinValue = request.MinValue;
-
+            if (!string.IsNullOrEmpty(request.CurrentImage))
+                _fileManager.RemoveProductImage(request.CurrentImage);
+            product.Image = _fileManager.SaveProductImage(request.Image);
+                           
             await _productManager.UpdateProduct(product);
 
             return new Response
@@ -26,7 +33,8 @@ namespace WebStore.Application.ProductsAdmin
                 Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
-                MinValue = product.MinValue
+                MinValue = product.MinValue,
+                CurrentImage = product.Image
             };
         }
         public class Request
@@ -35,6 +43,8 @@ namespace WebStore.Application.ProductsAdmin
             public string Name { get; set; }
             public string Description { get; set; }
             public decimal MinValue { get; set; }
+            public string CurrentImage { get; set; }
+            public IFormFile Image { get; set; }
         }
         public class Response
         {
@@ -42,6 +52,7 @@ namespace WebStore.Application.ProductsAdmin
             public string Name { get; set; }
             public string Description { get; set; }
             public decimal MinValue { get; set; }
+            public string CurrentImage { get; set; }
         }
     }
 }

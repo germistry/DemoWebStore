@@ -8,7 +8,9 @@
             id: 0,
             name: "",
             description: "",
-            minValue: 0.00
+            minValue: 0.00,
+            currentImage: "",
+            image: ""
         },
         products: []
     },
@@ -26,8 +28,8 @@
                         id: product.id,
                         name: product.name,
                         description: product.description,
-                        minValue: product.minValue
-                        
+                        minValue: product.minValue,
+                        currentImage: product.currentImage
                     };
                 })
                 .catch(err => {
@@ -53,7 +55,13 @@
         },
         createProduct() {
             this.loading = true;
-            axios.post('/products', this.productModel)
+            let formData = new FormData();
+            formData.append('name', this.productModel.name)
+            formData.append('description', this.productModel.description)
+            formData.append('minValue', this.productModel.minValue)
+            formData.append('currentImage', this.productModel.currentImage)
+            formData.append('image', this.productModel.image)
+            axios.post('/products', formData)
                 .then(res => {
                     console.log(res.data);
                     this.products.push(res.data);
@@ -68,7 +76,14 @@
         },
         updateProduct() {
             this.loading = true;
-            axios.put('/products', this.productModel)
+            let formData = new FormData();
+            formData.append('id', this.productModel.id)
+            formData.append('name', this.productModel.name)
+            formData.append('description', this.productModel.description)
+            formData.append('minValue', this.productModel.minValue)
+            formData.append('currentImage', this.productModel.currentImage)
+            formData.append('image', this.productModel.image)
+            axios.put('/products', formData)
                 .then(res => {
                     console.log(res.data);
                     this.products.splice(this.objectIndex, 1, res.data);
@@ -103,6 +118,9 @@
             this.objectIndex = index;
             this.getProduct(id);
             this.editing = true;
+        },
+        handleFileUpload() {
+            this.productModel.image = this.$refs.file.files[0];
         },
         cancel() {
             this.editing = false;

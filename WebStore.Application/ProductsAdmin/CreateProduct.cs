@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 using WebStore.Domain.Infrastructure;
 using WebStore.Domain.Models;
 
@@ -8,10 +9,12 @@ namespace WebStore.Application.ProductsAdmin
     public class CreateProduct
     {
         private readonly IProductManager _productManager;
+        private readonly IFileManager _fileManager;
 
-        public CreateProduct(IProductManager productManager)
+        public CreateProduct(IProductManager productManager, IFileManager fileManager)
         {
             _productManager = productManager;
+            _fileManager = fileManager;
         }
         public async Task<Response> ActionAsync(Request request)
         {
@@ -19,7 +22,8 @@ namespace WebStore.Application.ProductsAdmin
             {
                 Name = request.Name,
                 Description = request.Description,
-                MinValue = request.MinValue
+                MinValue = request.MinValue,
+                Image = _fileManager.SaveProductImage(request.Image)
             };
             await _productManager.CreateProduct(product);
 
@@ -28,7 +32,8 @@ namespace WebStore.Application.ProductsAdmin
                 Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
-                MinValue = product.MinValue
+                MinValue = product.MinValue,
+                CurrentImage = product.Image
             };
         }
         public class Request
@@ -36,6 +41,8 @@ namespace WebStore.Application.ProductsAdmin
             public string Name { get; set; }
             public string Description { get; set; }
             public decimal MinValue { get; set; }
+            public string CurrentImage { get; set; }
+            public IFormFile Image { get; set; }
         }
         public class Response
         {
@@ -43,6 +50,7 @@ namespace WebStore.Application.ProductsAdmin
             public string Name { get; set; }
             public string Description { get; set; }
             public decimal MinValue { get; set; }
+            public string CurrentImage { get; set; }
         }
     }  
 }
