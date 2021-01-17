@@ -1,7 +1,7 @@
 ﻿@page 
 @model AllProductsModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "All Products";
     var base_path = Request.PathBase;
 }
 
@@ -12,6 +12,7 @@
         @foreach (var p in Model.Products)
         {
             var card_image_path = $"{base_path}/ProductImage/{p.Image}";
+            var logo_image_path = $"{base_path}/ProductLogoImage/{p.Image}";
             <div class="column is-4-desktop is-6-tablet is-12-mobile">
                 <div class="card has-equal-height">
                     <div class="card-image">
@@ -23,7 +24,7 @@
                         <div class="media">
                             <div class="media-left">
                                 <figure class="image is-48x48">
-                                    <img src="" alt="Placeholder image">
+                                    <img src="@logo_image_path" alt="Placeholder image">
                                 </figure>
                             </div>
                             <div class="media-content">

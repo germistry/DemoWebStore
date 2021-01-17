@@ -7,6 +7,7 @@ namespace WebStore.Domain.Infrastructure
     {
         string SaveProductImage(IFormFile productImage);
         FileStream ProductImageStream(string productImage);
+        FileStream ProductLogoImageStream(string productLogoImage);
         void RemoveProductImage(string productImage);
     }
 }

@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<WebStore.Application.Cart.GetCart.Response>
+@{ 
+    var base_path = Context.Request.PathBase;
+}
 
 <div id="main-cart" class="columns is-multiline">
     <div class="column is-12">
@@ -6,11 +9,11 @@
         @foreach (var product in Model)
         {
             string lineValue = $"{product.MinValue * product.Qty}";
-
+            var logo_image_path = $"{base_path}/ProductLogoImage/{product.ProductImage}";
             <article class="media">
                 <figure class="media-left">
                     <p class="image is-64x64">
-                        <img src="~/images/carrots.png" alt="Example image" />
+                        <img src="@logo_image_path" alt="Example image" />
                     </p>
                 </figure>
                 <div class="media-content">

@@ -47,6 +47,22 @@ namespace WebStore.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Category",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryName = table.Column<string>(nullable: true),
+                    OGTags = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Category", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -54,6 +70,7 @@ namespace WebStore.Database.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderRef = table.Column<string>(nullable: true),
                     StripeRef = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     EmailAddress = table.Column<string>(nullable: true),
@@ -66,21 +83,6 @@ namespace WebStore.Database.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Value = table.Column<decimal>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -190,13 +192,42 @@ namespace WebStore.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    ExtendedDescription = table.Column<string>(nullable: true),
+                    OGTags = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    UpdatedDate = table.Column<DateTime>(nullable: true),
+                    UseProductMinValue = table.Column<bool>(nullable: false),
+                    MinValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CategoryId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Stock",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(nullable: true),
+                    StockName = table.Column<string>(nullable: true),
                     Qty = table.Column<int>(nullable: false),
+                    StockValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ProductId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -229,6 +260,28 @@ namespace WebStore.Database.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_OrderStocks_Stock_StockId",
+                        column: x => x.StockId,
+                        principalTable: "Stock",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StocksOnHold",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SessionId = table.Column<string>(nullable: true),
+                    StockId = table.Column<int>(nullable: false),
+                    Qty = table.Column<int>(nullable: false),
+                    ExpiryDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StocksOnHold", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StocksOnHold_Stock_StockId",
                         column: x => x.StockId,
                         principalTable: "Stock",
                         principalColumn: "Id",
@@ -280,9 +333,19 @@ namespace WebStore.Database.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Products_CategoryId",
+                table: "Products",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Stock_ProductId",
                 table: "Stock",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StocksOnHold_StockId",
+                table: "StocksOnHold",
+                column: "StockId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -306,6 +369,9 @@ namespace WebStore.Database.Migrations
                 name: "OrderStocks");
 
             migrationBuilder.DropTable(
+                name: "StocksOnHold");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -319,6 +385,9 @@ namespace WebStore.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Category");
         }
     }
 }

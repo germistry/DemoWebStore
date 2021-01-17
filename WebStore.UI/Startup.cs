@@ -75,7 +75,7 @@ namespace WebStore.UI
             services
                 .AddMvc(options =>
                 {
-                    //options.CacheProfiles.Add("Monthly", new CacheProfile { Duration = 60 * 60 * 24 * 7 * 4 });
+                    options.CacheProfiles.Add("Monthly", new CacheProfile { Duration = 60 * 60 * 24 * 7 * 4 });
                     //options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     options.EnableEndpointRouting = false;
                 })

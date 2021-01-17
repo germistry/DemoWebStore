@@ -16,14 +16,15 @@ namespace WebStore.Application.Cart
         public IEnumerable<Response> Action()
         {
             return _sessionManager.GetCart(x => new Response
-                {
-                    Name = x.ProductName,
-                    MinValue = x.MinValue,
-                    ValueAsString = x.MinValue.GetValueAsString(),
+            {
+                Name = x.ProductName,
+                MinValue = x.MinValue,
+                ValueAsString = x.MinValue.GetValueAsString(),
+                ProductImage = x.ProductImage,
                     Qty = x.Qty,
-                    StockId = x.StockId,
-                    StockName = x.StockName
-                });
+                StockId = x.StockId,
+                StockName = x.StockName
+            }) ;
         }
 
         public class Response
@@ -31,6 +32,7 @@ namespace WebStore.Application.Cart
             public string Name { get; set; }
             public decimal MinValue { get; set; }
             public string ValueAsString { get; set; }
+            public string ProductImage { get; set; }
             public int Qty { get; set; }
             public int StockId { get; set; }
             public string StockName { get; set; }

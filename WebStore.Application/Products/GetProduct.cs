@@ -26,6 +26,7 @@ namespace WebStore.Application.Products
                 Name = x.Name,
                 Description = x.Description,
                 MinValue = x.MinValue.GetValueAsString(),
+                Image = x.Image,
 
                 Stock = x.Stock.Select(y => new StockViewModel
                 {
@@ -41,6 +42,7 @@ namespace WebStore.Application.Products
             public string Name { get; set; }
             public string Description { get; set; }
             public string MinValue { get; set; }
+            public string Image { get; set; }
             public IEnumerable<StockViewModel> Stock { get; set; }
         }
 

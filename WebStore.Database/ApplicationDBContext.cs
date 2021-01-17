@@ -14,12 +14,14 @@ namespace WebStore.Database
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderStock> OrderStocks { get; set; }
         public DbSet<StockOnHold> StocksOnHold { get; set; }
+        public DbSet<Category> Category { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.Entity<OrderStock>().HasKey(x => new { x.StockId, x.OrderId });
             builder.Entity<Product>().Property(p => p.MinValue).HasColumnType("decimal(18,2)");
+            builder.Entity<Stock>().Property(p => p.StockValue).HasColumnType("decimal(18,2)");
         }
     }
 }

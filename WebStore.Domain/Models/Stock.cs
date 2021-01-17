@@ -7,6 +7,7 @@ namespace WebStore.Domain.Models
         public int Id { get; set; }
         public string StockName { get; set; }
         public int Qty { get; set; }
+        public decimal StockValue { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }
         public ICollection<OrderStock> OrderStocks { get; set; }

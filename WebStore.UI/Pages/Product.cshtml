@@ -2,15 +2,17 @@
 @model ProductModel
 @{
 
+    ViewData["Title"] = Model.Product.Name;
+    var base_path = Request.PathBase;
+    var card_image_path = $"{base_path}/ProductImage/{Model.Product.Image}";
 }
-<!--Will want to change this to use Vue-->
 <div class="hero">
     <div class="hero-body">
         <div class="container">
             <div class="columns">
                 <div class="column is-6">
                     <figure class="image">
-                        <img src="~/images/carrots.png" />
+                        <img src="@card_image_path" />
                     </figure>
                 </div>
 

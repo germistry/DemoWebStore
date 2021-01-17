@@ -30,6 +30,7 @@ namespace WebStore.Application.Cart
             { 
                 ProductId = stock.ProductId,
                 ProductName = stock.Product.Name,
+                ProductImage = stock.Product.Image,
                 StockId = stock.Id,
                 StockName = stock.StockName,
                 Qty = request.Qty,

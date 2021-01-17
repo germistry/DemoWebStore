@@ -11,12 +11,19 @@ namespace WebStore.UI.Controllers
         {
             _fileManager = fileManager;
         }
-        
+
         [HttpGet("/ProductImage/{productImage}")]
         [ResponseCache(CacheProfileName = "Monthly")]
         //HttpGet to return the product image through filestream.
         public IActionResult ProductImage(string productImage) =>
            new FileStreamResult(_fileManager.ProductImageStream(productImage),
                $"productImage/{productImage.Substring(productImage.LastIndexOf('.') + 1)}");
+
+
+        [HttpGet("/ProductLogoImage/{productLogoImage}")]
+        [ResponseCache(CacheProfileName = "Monthly")]
+        public IActionResult ProductLogoImage(string productLogoImage) =>
+            new FileStreamResult(_fileManager.ProductLogoImageStream(productLogoImage),
+                $"productLogoImage/{productLogoImage.Substring(productLogoImage.LastIndexOf('.') + 1)}");
     }
 }

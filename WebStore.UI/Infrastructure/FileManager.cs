@@ -39,7 +39,10 @@ namespace WebStore.UI.Infrastructure
         {
             return new FileStream(Path.Combine(_productImagePath, productImage), FileMode.Open, FileAccess.Read);
         }
-
+        public FileStream ProductLogoImageStream(string productLogoImage)
+        {
+            return new FileStream(Path.Combine(_productLogoImagePath, productLogoImage), FileMode.Open, FileAccess.Read);
+        }
         public void RemoveProductImage(string productImage)
         {
             try
@@ -76,8 +79,8 @@ namespace WebStore.UI.Infrastructure
                 string[] file = fileWithExt.Split('.');
                 string fileNoExt = file[0];
 
-                var productFileName = $"{fileNoExt}_{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}{mime}";
-                var logoFileName = $"{fileNoExt}_{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}{mime}";
+                var productFileName = $"{fileNoExt}_{DateTime.Now:dd-MM-yyyy-HH-mm-ss}{mime}";
+                var logoFileName = $"{fileNoExt}_{DateTime.Now:dd-MM-yyyy-HH-mm-ss}{mime}";
                 //Get the filestream and then save the image
                 using (var productFileStream = new FileStream(Path.Combine(productSavePath, productFileName), FileMode.Create))
                 {
