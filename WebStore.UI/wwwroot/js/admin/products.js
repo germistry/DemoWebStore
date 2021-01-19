@@ -4,13 +4,20 @@
         editing: false,
         loading: false,
         objectIndex: 0,
+        fileName: "",
         productModel: {
             id: 0,
             name: "",
             description: "",
+            extendedDescription: "",
+            ogTags: "",
+            createdDate: "",
+            currentUpdatedDate: "",
+            useProductMinValue: true,
             minValue: 0.00,
             currentImage: "",
-            image: ""
+            image: "",
+            categoryId: 0
         },
         products: []
     },
@@ -28,8 +35,14 @@
                         id: product.id,
                         name: product.name,
                         description: product.description,
+                        extendedDescription: product.extendedDescription,
+                        ogTags: product.ogTags,
+                        createdDate: product.createdDate,
+                        currentUpdatedDate: product.currentUpdatedDate,
+                        useProductMinValue: product.useProductMinValue,
                         minValue: product.minValue,
-                        currentImage: product.currentImage
+                        currentImage: product.currentImage,
+                        categoryId: product.categoryId
                     };
                 })
                 .catch(err => {
@@ -58,9 +71,13 @@
             let formData = new FormData();
             formData.append('name', this.productModel.name)
             formData.append('description', this.productModel.description)
+            formData.append('extendedDescription', this.productModel.extendedDescription)
+            formData.append('ogTags', this.productModel.ogTags)
+            formData.append('useProductMinValue', this.productModel.useProductMinValue)
             formData.append('minValue', this.productModel.minValue)
             formData.append('currentImage', this.productModel.currentImage)
             formData.append('image', this.productModel.image)
+            formData.append('categoryId', this.productModel.categoryId)
             axios.post('/products', formData)
                 .then(res => {
                     console.log(res.data);
@@ -80,9 +97,13 @@
             formData.append('id', this.productModel.id)
             formData.append('name', this.productModel.name)
             formData.append('description', this.productModel.description)
+            formData.append('extendedDescription', this.productModel.extendedDescription)
+            formData.append('ogTags', this.productModel.ogTags)
+            formData.append('useProductMinValue', this.productModel.useProductMinValue)
             formData.append('minValue', this.productModel.minValue)
             formData.append('currentImage', this.productModel.currentImage)
             formData.append('image', this.productModel.image)
+            formData.append('categoryId', this.productModel.categoryId)
             axios.put('/products', formData)
                 .then(res => {
                     console.log(res.data);
@@ -121,6 +142,7 @@
         },
         handleFileUpload() {
             this.productModel.image = this.$refs.file.files[0];
+            this.fileName = event.target.files[0].name;
         },
         cancel() {
             this.editing = false;

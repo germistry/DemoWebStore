@@ -1,0 +1,71 @@
+﻿@page
+@model WebStore.UI.Pages.Admin.CategoriesModel
+@{
+}
+<div id="app" class="container">
+    <div v-if="!editing">
+        <button class="button" @@click="newCategory">Add New Category</button>
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Category Name</th>
+                <th>Description</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr v-for="(category, index) in categories">
+                <td>{{category.id}}</td>
+                <td>{{category.categoryName}}</td>
+                <td>{{category.description}}</td>
+                <td><a @@click="editCategory(category.id, index)">Edit</a></td>
+                <td><a @@click="deleteCategory(category.id, index)">Remove</a></td>
+            </tr>
+        </table>
+    </div>
+    <div v-else>
+        <div class="field">
+            <label class="label">Category Name</label>
+            <div class="control">
+                <input class="input" placeholder="Category Name" v-model="categoryModel.categoryName" />
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Short Description</label>
+            <div class="control">
+                <input class="input" placeholder="Short Description" v-model="categoryModel.description" />
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">OG Tags</label>
+            <div class="control">
+                <input class="input" placeholder="List keywords for SEO" v-model="categoryModel.ogTags" />
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Current Image: {{categoryModel.currentImage}}</label>
+        </div>
+        <div class="file has-name">
+            <label class="file-label">
+                <input class="file-input" type="file" id="file" ref="file" v-on:change="handleFileUpload()">
+                <span class="file-cta">
+                    <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                        Choose a image…
+                    </span>
+                </span>
+                <span class="file-name" id="fileName" for="file">
+                    {{fileName}}
+                </span>
+            </label>
+        </div>
+        <button class="button is-success" @@click="createCategory" v-if="!categoryModel.id">Create Category</button>
+        <button class="button is-warning" @@click="updateCategory" v-else>Update Category</button>
+        <button class="button" @@click="cancel">Cancel</button>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/admin/categories.js"></script>
+}

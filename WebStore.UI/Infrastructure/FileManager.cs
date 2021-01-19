@@ -11,11 +11,13 @@ namespace WebStore.UI.Infrastructure
     {
         private readonly string _productImagePath;
         private readonly string _productLogoImagePath;
+        private readonly string _categoryImagePath;
 
         public FileManager(IConfiguration config)
         {
             _productImagePath = config["Path:ProductImages"];
             _productLogoImagePath = config["Path:ProductLogoImages"];
+            _categoryImagePath = config["Path:CategoryImages"];
         }
         private ProcessImageSettings ProductImageOptions() => new ProcessImageSettings
         {
@@ -30,6 +32,15 @@ namespace WebStore.UI.Infrastructure
         {
             Width = 48,
             Height = 48,
+            ResizeMode = CropScaleMode.Crop,
+            SaveFormat = FileFormat.Jpeg,
+            JpegQuality = 100,
+            JpegSubsampleMode = ChromaSubsampleMode.Subsample420
+        };
+        private ProcessImageSettings CategoryImageOptions() => new ProcessImageSettings
+        {
+            Width = 256,
+            Height = 256,
             ResizeMode = CropScaleMode.Crop,
             SaveFormat = FileFormat.Jpeg,
             JpegQuality = 100,
@@ -98,6 +109,59 @@ namespace WebStore.UI.Infrastructure
             {
                 Console.WriteLine(e.Message);
                 return "Error";
+            }
+        }
+
+        public string SaveCategoryImage(IFormFile categoryImage)
+        {
+            try
+            {
+                //Get the path & if path can't be saved because doesn't exist then create it
+                var categorySavePath = Path.Combine(_categoryImagePath);
+                if (!Directory.Exists(categorySavePath))
+                    Directory.CreateDirectory(categorySavePath);
+                //Get the mime & fileName, done this way to prevent internet explorer errors
+                var mime = categoryImage.FileName.Substring(categoryImage.FileName.LastIndexOf('.'));
+                //Generate just the file name so it can be copied over to asset files instead of generic tag
+                string fileWithExt = categoryImage.FileName;
+                string[] file = fileWithExt.Split('.');
+                string fileNoExt = file[0];
+
+                var categoryFileName = $"{fileNoExt}_{DateTime.Now:dd-MM-yyyy-HH-mm-ss}{mime}";
+                
+                //Get the filestream and then save the image
+                using (var categoryFileStream = new FileStream(Path.Combine(categorySavePath, categoryFileName), FileMode.Create))
+                {
+                    //Imagine processing to make files smaller, same size etc doesnt have an async method
+                    MagicImageProcessor.ProcessImage(categoryImage.OpenReadStream(), categoryFileStream, CategoryImageOptions());
+                }
+                
+                return categoryFileName;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return "Error";
+            }
+        }
+
+        public FileStream CategoryImageStream(string categoryImage)
+        {
+            return new FileStream(Path.Combine(_categoryImagePath, categoryImage), FileMode.Open, FileAccess.Read);
+        }
+
+        public void RemoveCategoryImage(string categoryImage)
+        {
+            try
+            {
+                var categoryFile = Path.Combine(_categoryImagePath, categoryImage);
+                
+                if (File.Exists(categoryFile))
+                    File.Delete(categoryFile);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
     }

@@ -23,33 +23,152 @@
         </table>
     </div>
     <div v-else>
-        <div class="field">
-            <label class="label">Product Name</label>
-            <div class="control">
-                <input class="input" placeholder="Product Name" v-model="productModel.name" />
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Product Name</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <p class="control is-expanded">
+                        <input class="input" placeholder="Product Name" v-model="productModel.name" />
+                    </p>
+                </div>
+                <div class="field has-addons">
+                    <p class="control">
+                        <div class="field-label is-normal">
+                             <label class="label" >Category&emsp;</label>
+                        </div>
+                    </p>
+                    <p class="control is-expanded">
+                        <input class="input" placeholder="Category Id" v-model.number="productModel.categoryId" />
+                    </p>
+                </div>
             </div>
         </div>
-        <div class="field">
-            <label class="label">Product Description</label>
-            <div class="control">
-                <input class="input" placeholder="Product Description" v-model="productModel.description" />
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Short Description</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <p class="control is-expanded">
+                        <input class="input" placeholder="Short Description" v-model="productModel.description" />
+                    </p>
+                </div>
             </div>
         </div>
-        <div class="field">
-            <label class="label">Min Value</label>
-            <div class="control">
-                <input class="input" placeholder="0.00" v-model.number="productModel.minValue" />
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Extended Description</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <p class="control is-expanded">
+                        <textarea class="textarea" rows="6" placeholder="Write an extended description for public website" v-model="productModel.extendedDescription"></textarea>
+                    </p>
+                </div>
             </div>
         </div>
-        <div class="field">
-            <label class="label">Current Image: {{productModel.currentImage}}</label>
-            <div class="control">
-                <input class="input" type="file" id="file" ref="file" v-on:change="handleFileUpload()" />
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">OG Tags</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <p class="control is-expanded">
+                        <input class="input" placeholder="List keywords for SEO" v-model="productModel.ogTags" />
+                    </p>
+                </div>
             </div>
         </div>
-        <button class="button is-success" @@click="createProduct" v-if="!productModel.id">Create Product</button>
-        <button class="button is-warning" @@click="updateProduct" v-else>Update Product</button>
-        <button class="button" @@click="cancel">Cancel</button>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Minimum Value</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <p class="control is-expanded">
+                        <input class="input" placeholder="0.00" v-model.number="productModel.minValue" />
+                    </p>
+                </div>
+            </div>
+            <div class="field-label is-normal">
+                <label class="checkbox">Use Product Minimum Value?</label>
+            </div>
+            <div class="field-body">
+                <p class="control">
+                    <input type="checkbox" id="useProductMinValue" v-model="productModel.useProductMinValue">
+                </p>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Current Image</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <p class="control is-expanded">
+                        <input class="input" disabled v-model="productModel.currentImage" />
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+            </div>
+            <div class="field-body">
+                <div class="file has-name">
+                    <label class="file-label">
+                        <input class="file-input" type="file" id="file" ref="file" v-on:change="handleFileUpload()">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                Choose a image…
+                            </span>
+                        </span>
+                        <span class="file-name is-expanded" id="fileName" for="file">
+                            {{fileName}}
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Created Date</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <p class="control is-expanded">
+                        <input class="input" disabled v-model="productModel.createdDate" />
+                    </p>
+                </div>
+            </div>
+            <div class="field-label is-normal">
+                <label class="label">Last Updated</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <p class="control is-expanded">
+                        <input class="input" disabled v-model="productModel.currentUpdatedDate" />
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+            </div>
+            <div class="field-body">
+                <div class="buttons">
+                    <button class="button is-success" @@click="createProduct" v-if="!productModel.id">Create Product</button>
+                    <button class="button is-warning" @@click="updateProduct" v-else>Update Product</button>
+                    <button class="button" @@click="cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
