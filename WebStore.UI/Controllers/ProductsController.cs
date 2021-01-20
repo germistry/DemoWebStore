@@ -3,13 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebStore.Application.ProductsAdmin;
 
-
 namespace WebStore.UI.Controllers
 {
     [Route("[controller]")]
     [Authorize(Policy = "Manager")]
     public class ProductsController : Controller
     {
+        [HttpGet("getcategories", Name ="getcategories")]
+        public IActionResult GetCategoryDropdown(
+            [FromServices] GetCategoryDropdown getCategoryDropdown) =>
+                Ok(getCategoryDropdown.Action());
+
         [HttpGet("")]
         public IActionResult GetProducts(
             [FromServices] GetProducts getProducts) => 
@@ -17,8 +21,8 @@ namespace WebStore.UI.Controllers
 
         [HttpGet("{id}")]
         public IActionResult GetProduct(
-            int id, 
-            [FromServices] GetProduct getProduct) => 
+            int id,
+            [FromServices] GetProduct getProduct) =>
                 Ok(getProduct.Action(id));
 
         [HttpPost("")]

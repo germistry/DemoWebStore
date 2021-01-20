@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using WebStore.Domain.Infrastructure;
 using WebStore.Domain.Models;
@@ -36,7 +37,14 @@ namespace WebStore.Database.Interfaces
 
             return _context.SaveChangesAsync();
         }
-
+        public IEnumerable<TResult> GetCategoriesForDropDown<TResult>(Expression<Func<Category, TResult>> selector)
+        {
+            return _context.Category
+                .OrderBy(c => c.CategoryName)
+                .Select(selector)
+                .ToList();
+        }
+        
         public TResult GetCategoryById<TResult>(int id, Func<Category, TResult> selector)
         {
             return _context.Category
@@ -61,5 +69,7 @@ namespace WebStore.Database.Interfaces
                 .Select(selector)
                 .ToList();
         }
+
+        
     }
 }

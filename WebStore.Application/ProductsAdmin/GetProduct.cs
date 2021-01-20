@@ -1,5 +1,4 @@
-﻿using System;
-using WebStore.Domain.Infrastructure;
+﻿using WebStore.Domain.Infrastructure;
 
 namespace WebStore.Application.ProductsAdmin
 {
@@ -44,7 +43,6 @@ namespace WebStore.Application.ProductsAdmin
             public decimal MinValue { get; set; }
             public string CurrentImage { get; set; }
             public int CategoryId { get; set; }
-
         }
     }
 }

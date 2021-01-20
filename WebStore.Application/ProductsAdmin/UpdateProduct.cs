@@ -60,7 +60,7 @@ namespace WebStore.Application.ProductsAdmin
             public decimal MinValue { get; set; }
             public string CurrentImage { get; set; }
             public IFormFile Image { get; set; }
-            public int CategoryId { get; set; }
+            public int CategoryId { get; set; } 
         }
         public class Response
         {
@@ -74,7 +74,7 @@ namespace WebStore.Application.ProductsAdmin
             public bool UseProductMinValue { get; set; }
             public decimal MinValue { get; set; }
             public string CurrentImage { get; set; }
-            public int CategoryId { get; set; }
+            public int CategoryId { get; set; } 
         }
     }
 }

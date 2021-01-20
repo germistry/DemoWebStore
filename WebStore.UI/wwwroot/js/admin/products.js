@@ -3,8 +3,12 @@
     data: {
         editing: false,
         loading: false,
-        objectIndex: 0,
+        productObjectIndex: 0,
         fileName: "",
+        categoryList: [{
+            value: 0,
+            text: ""
+        }],
         productModel: {
             id: 0,
             name: "",
@@ -20,11 +24,27 @@
             categoryId: 0
         },
         products: []
+        
     },
     mounted() {
         this.getProducts();
+        this.getCategoryDropdown();
     },
     methods: {
+        getCategoryDropdown() {
+            this.loading = true;
+            axios.get('/products/getcategories')
+                .then(res => {
+                    console.log(res);
+                    this.categoryList = res.data;
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+                .then(() => {
+                    this.loading = false;
+                });
+        },
         getProduct(id) {
             this.loading = true;
             axios.get('/products/' + id)
@@ -134,11 +154,17 @@
         newProduct() {
             this.editing = true;
             this.productModel.id = 0;
+            this.getCategoryDropdown();
+            this.categoryList = this.getCategoryDropdown;
+            this.productModel.categoryId = 0;
         },
         editProduct(id, index) {
-            this.objectIndex = index;
-            this.getProduct(id);
             this.editing = true;
+            this.productObjectIndex = index;
+            this.getProduct(id);
+            this.getCategoryDropdown();
+            this.categoryList = this.getCategoryDropdown;
+            
         },
         handleFileUpload() {
             this.productModel.image = this.$refs.file.files[0];
