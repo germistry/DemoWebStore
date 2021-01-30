@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebStore.Domain.Infrastructure;
 using WebStore.Domain.Models;
@@ -25,7 +26,10 @@ namespace WebStore.Application.StockAdmin
                     Id = stock.Id,
                     ProductId = stock.ProductId,
                     StockName = stock.StockName,
-                    Qty = stock.Qty
+                    Qty = stock.Qty,
+                    StockValue = stock.StockValue,
+                    UpdatedDate = DateTime.Now
+                
                 });
             }
 
@@ -43,6 +47,8 @@ namespace WebStore.Application.StockAdmin
             public int ProductId { get; set; }
             public string StockName { get; set; }
             public int Qty { get; set; }
+            public decimal StockValue { get; set; }
+           
         }
 
 

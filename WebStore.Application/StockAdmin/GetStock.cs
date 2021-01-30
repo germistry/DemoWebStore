@@ -21,11 +21,16 @@ namespace WebStore.Application.StockAdmin
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
+                UseProductMinValue = x.UseProductMinValue,
+                MinValue = x.MinValue,
                 Stock = x.Stock.Select(y => new StockViewModel
                 {
                     Id = y.Id,
                     StockName = y.StockName,
-                    Qty = y.Qty
+                    Qty = y.Qty,
+                    StockValue = y.StockValue,
+                    CreatedDate = y.CreatedDate.GetDateTimeAsString(),
+                    UpdatedDate = y.UpdatedDate.GetDateTimeAsStringOrNull(),
                 })
             });
         }
@@ -34,6 +39,9 @@ namespace WebStore.Application.StockAdmin
             public int Id { get; set; }
             public string StockName { get; set; }
             public int Qty { get; set; }
+            public decimal StockValue { get; set; }
+            public string CreatedDate { get; set; }
+            public string UpdatedDate { get; set; }
         }
 
         public class ProductViewModel
@@ -41,6 +49,8 @@ namespace WebStore.Application.StockAdmin
             public int Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
+            public bool UseProductMinValue { get; set; }
+            public decimal MinValue { get; set; }
             public IEnumerable<StockViewModel> Stock { get; set; }
         }
     }

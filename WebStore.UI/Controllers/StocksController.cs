@@ -28,7 +28,7 @@ namespace WebStore.UI.Controllers
 
         [HttpPut("")]
         public async Task<IActionResult> UpdateStock(
-            [FromBody] UpdateStock.Request request, 
+            [FromBody]UpdateStock.Request request, 
             [FromServices] UpdateStock updateStock) =>
                 Ok(await updateStock.ActionAsync(request));
     }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using WebStore.Domain.Infrastructure;
 using WebStore.Domain.Models;
 
@@ -20,16 +21,20 @@ namespace WebStore.Application.StockAdmin
             {
                 ProductId = request.ProductId,
                 StockName = request.StockName,
-                Qty = request.Qty
+                Qty = request.Qty,
+                CreatedDate = DateTime.Now,
+                StockValue = request.StockValue
             };
-
+           
             await _stockManager.CreateStock(stock);
 
             return new Response 
             { 
                 Id = stock.Id,
                 StockName = stock.StockName,
-                Qty = stock.Qty
+                Qty = stock.Qty,
+                StockValue = stock.StockValue,
+                CreatedDate = stock.CreatedDate.GetDateTimeAsString()
             };
         }
 
@@ -38,6 +43,7 @@ namespace WebStore.Application.StockAdmin
             public int ProductId { get; set; }
             public string StockName { get; set; }
             public int Qty { get; set; }
+            public decimal StockValue { get; set; }
         }
 
         public class Response
@@ -45,6 +51,8 @@ namespace WebStore.Application.StockAdmin
             public int Id { get; set; }
             public string StockName { get; set; }
             public int Qty { get; set; }
+            public decimal StockValue { get; set; }
+            public string CreatedDate { get; set; }
         }
     }
 }

@@ -27,9 +27,12 @@ namespace WebStore.Application.ProductsAdmin
             product.UpdatedDate = DateTime.Now;
             product.UseProductMinValue = request.UseProductMinValue;
             product.MinValue = request.MinValue;
-            if (!string.IsNullOrEmpty(request.CurrentImage))
-                _fileManager.RemoveProductImage(request.CurrentImage);
-            product.Image = _fileManager.SaveProductImage(request.Image);
+            if (request.Image != null)
+            {
+                product.Image = _fileManager.SaveProductImage(request.Image);
+                if (!string.IsNullOrEmpty(request.CurrentImage))
+                    _fileManager.RemoveProductImage(request.CurrentImage);
+            }
             product.CategoryId = request.CategoryId;
                            
             await _productManager.UpdateProduct(product);

@@ -23,10 +23,13 @@ namespace WebStore.Application.CategoriesAdmin
             category.CategoryName = request.CategoryName;
             category.Description = request.Description;
             category.OGTags = request.OGTags;
-            if (!string.IsNullOrEmpty(request.CurrentImage))
-                _fileManager.RemoveCategoryImage(request.CurrentImage);
-            category.Image = _fileManager.SaveCategoryImage(request.Image);
-
+            if (request.Image != null)
+            {
+                category.Image = _fileManager.SaveCategoryImage(request.Image);
+                if (!string.IsNullOrEmpty(request.CurrentImage))
+                    _fileManager.RemoveCategoryImage(request.CurrentImage);
+            }
+            
             await _categoryManager.UpdateCategory(category);
 
             return new Response

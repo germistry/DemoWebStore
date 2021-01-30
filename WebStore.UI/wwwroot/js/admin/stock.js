@@ -1,12 +1,15 @@
 ﻿var app = new Vue({
     el: '#app',
     data: {
+        loading: false,
         products: [],
         selectedProduct: null,
+        usingProductMinValue: false,
         newStock: {
             productId: 0,
             stockName: "",
-            qty: 0
+            qty: 0,
+            stockValue: 0.00
         }
     },
     mounted() {
@@ -35,9 +38,10 @@
                         id: x.id,
                         stockName: x.stockName,
                         qty: x.qty,
+                        stockValue: x.stockValue,
                         productId: this.selectedProduct.id
                     };
-                })
+                })       
             })
                 .then(res => {
                     console.log(res);
@@ -47,7 +51,7 @@
                     console.log(err);
                 })
                 .then(() => {
-                    this.loading = false;
+                    this.loading = false; 
                 });
         },
         deleteStock(id, index) {
@@ -82,6 +86,13 @@
         selectProduct(product) {
             this.selectedProduct = product;
             this.newStock.productId = product.id;
+            this.usingProductMinValue = product.useProductMinValue;
+            if (this.usingProductMinValue) {
+                this.newStock.stockValue = product.minValue;
+            }  
+        },
+        cancel() {
+            this.selectedProduct = null;
         }
     }
 })
