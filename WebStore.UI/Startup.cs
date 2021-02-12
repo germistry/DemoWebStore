@@ -32,7 +32,7 @@ namespace WebStore.UI
 
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
-                //TODO: Change options to true in Production
+                //TODO 9 Change options to true in Production
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 8;
                 options.Password.RequireUppercase = false;
@@ -56,11 +56,11 @@ namespace WebStore.UI
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
-                //TODO: Enable secure cookie in production
+                //TODO 9 Enable secure cookie in production
                 //options.Secure = CookieSecurePolicy.Always;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            //TODO: Enable HSTS & SuppressXFrameOptionsHeader in Production
+            //TODO 9 Enable HSTS & SuppressXFrameOptionsHeader in Production
             //services.AddHsts(options =>
             //{
             //    options.MaxAge = TimeSpan.FromDays(365);
@@ -111,7 +111,7 @@ namespace WebStore.UI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            //TODO: Enable Security Headers in Production
+            //TODO 9 Enable Security Headers in Production
             //app.Use(async (context, next) =>
             //{
             //    if (!context.Response.Headers.ContainsKey("Header-Name"))

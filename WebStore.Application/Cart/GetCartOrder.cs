@@ -20,7 +20,7 @@ namespace WebStore.Application.Cart
                 {
                     ProductId = x.ProductId,
                     StockId = x.StockId,
-                    MinValue = x.MinValue.GetValueAsInt(), 
+                    Value = x.Value.GetValueAsInt(), 
                     Qty = x.Qty
                 });
 
@@ -47,7 +47,7 @@ namespace WebStore.Application.Cart
             public int ProductId { get; set; }
             public int Qty { get; set; }
             public int StockId { get; set; }
-            public int MinValue { get; set; }
+            public int Value { get; set; }
         }
         public class CustomerInfo
         {
@@ -65,7 +65,7 @@ namespace WebStore.Application.Cart
             public IEnumerable<Product> Products { get; set; }
             public CustomerInfo CustomerInfo { get; set; }
 
-            public int GetTotalCharge() => Products.Sum(x => x.MinValue * x.Qty);
+            public int GetTotalCharge() => Products.Sum(x => x.Value * x.Qty);
         }
     }
 }

@@ -30,7 +30,6 @@ namespace WebStore.Application.StockAdmin
                     Qty = y.Qty,
                     StockValue = y.StockValue,
                     CreatedDate = y.CreatedDate.GetDateTimeAsString(),
-                    UpdatedDate = y.UpdatedDate.GetDateTimeAsStringOrNull(),
                 })
             });
         }
@@ -41,7 +40,6 @@ namespace WebStore.Application.StockAdmin
             public int Qty { get; set; }
             public decimal StockValue { get; set; }
             public string CreatedDate { get; set; }
-            public string UpdatedDate { get; set; }
         }
 
         public class ProductViewModel

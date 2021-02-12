@@ -1,6 +1,7 @@
 ﻿var app = new Vue({
     el: '#app',
     data: {
+        editing: false,
         loading: false,
         products: [],
         selectedProduct: null,
@@ -52,6 +53,8 @@
                 })
                 .then(() => {
                     this.loading = false; 
+                    this.editing = false;
+                    this.selectedProduct = null;
                 });
         },
         deleteStock(id, index) {
@@ -84,6 +87,7 @@
 
         },
         selectProduct(product) {
+            this.editing = true;
             this.selectedProduct = product;
             this.newStock.productId = product.id;
             this.usingProductMinValue = product.useProductMinValue;
@@ -92,6 +96,7 @@
             }  
         },
         cancel() {
+            this.editing = false;
             this.selectedProduct = null;
         }
     }

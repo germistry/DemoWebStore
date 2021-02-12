@@ -34,7 +34,7 @@ namespace WebStore.Application.Cart
                 StockId = stock.Id,
                 StockName = stock.StockName,
                 Qty = request.Qty,
-                MinValue = stock.Product.MinValue
+                Value = stock.StockValue
 
             };
 
@@ -46,6 +46,7 @@ namespace WebStore.Application.Cart
         {
             public int StockId { get; set; }
             public int Qty { get; set; }
+           
         }
     }
 }

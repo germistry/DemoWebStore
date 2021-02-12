@@ -15,7 +15,7 @@ namespace WebStore.UI.ViewComponents
         {
             if(view == "Small")
             {
-                var totalValue = _getCart.Action().Sum(x => x.MinValue*x.Qty);
+                var totalValue = _getCart.Action().Sum(x => x.Value*x.Qty);
                 return View(view, $"${totalValue}");
             }
             return View(view, _getCart.Action());

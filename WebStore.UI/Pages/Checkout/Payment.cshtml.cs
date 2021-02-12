@@ -28,7 +28,7 @@ namespace WebStore.UI.Pages.Checkout
             }
             return Page();
         }
-        //TODO Implement Stripe Payment for V3 (currently working only on v1)
+        //TODO 3 Implement Stripe Payment for V3 (currently working only on v1)
         public async Task<IActionResult> OnPost(
             [FromServices] GetCartOrder getCartOrder, 
             [FromServices] CreateOrder createOrder,

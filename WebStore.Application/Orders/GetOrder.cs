@@ -30,11 +30,11 @@ namespace WebStore.Application.Orders
                 {
                     Name = y.Stock.Product.Name,
                     Description = y.Stock.Product.Description,
-                    MinValue = $"$ {y.Stock.Product.MinValue}",
+                    StockValue = $"$ {y.Stock.StockValue}",
                     Qty = y.Qty,
                     StockName = y.Stock.StockName
                 }),
-                TotalValue = x.OrderStocks.Sum(y => y.Stock.Product.MinValue * y.Qty).ToString("N2")
+                TotalValue = x.OrderStocks.Sum(y => y.Stock.StockValue * y.Qty).ToString("N2")
             });
         
 
@@ -56,7 +56,7 @@ namespace WebStore.Application.Orders
         {
             public string Name { get; set; }
             public string Description { get; set; }
-            public string MinValue { get; set; }
+            public string StockValue { get; set; }
             public int Qty { get; set; }
             public string StockName { get; set; }
         }

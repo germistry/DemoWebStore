@@ -48,10 +48,12 @@ namespace WebStore.UI.Infrastructure
         };
         public FileStream ProductImageStream(string productImage)
         {
+            //TODO 1 Need error checking here in case images are missing
             return new FileStream(Path.Combine(_productImagePath, productImage), FileMode.Open, FileAccess.Read);
         }
         public FileStream ProductLogoImageStream(string productLogoImage)
         {
+            //TODO 1 Need error checking here in case images are missing
             return new FileStream(Path.Combine(_productLogoImagePath, productLogoImage), FileMode.Open, FileAccess.Read);
         }
         public void RemoveProductImage(string productImage)
@@ -147,6 +149,7 @@ namespace WebStore.UI.Infrastructure
 
         public FileStream CategoryImageStream(string categoryImage)
         {
+            //TODO 1 Need error checking here in case images are missing
             return new FileStream(Path.Combine(_categoryImagePath, categoryImage), FileMode.Open, FileAccess.Read);
         }
 

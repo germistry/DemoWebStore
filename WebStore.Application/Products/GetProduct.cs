@@ -32,7 +32,8 @@ namespace WebStore.Application.Products
                 {
                     Id = y.Id,
                     StockName = y.StockName,
-                    Qty = y.Qty
+                    Qty = y.Qty,
+                    StockValue = y.StockValue.GetValueAsString()
                 })
             });
         }
@@ -51,6 +52,7 @@ namespace WebStore.Application.Products
             public int Id { get; set; }
             public string StockName { get; set; }
             public int Qty { get; set; }
+            public string StockValue { get; set; }
         }
     }
 }

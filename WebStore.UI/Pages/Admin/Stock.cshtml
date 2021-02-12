@@ -4,7 +4,7 @@
 }
 
 <div id="app" class="container">
-    
+    <div v-if="!editing">
         <table class="table">
             <tr>
                 <th>Product Name</th>
@@ -21,83 +21,83 @@
                 <td><a @@click="selectProduct(product)">Edit</a></td>
             </tr>
         </table>
-    
-    <div class="columns">
-        <div class="column is-9" v-if="selectedProduct">
-            <h2 class="title">Update Existing Stock</h2>
-            <h3 class="subtitle">{{selectedProduct.name}}</h3>
-            <p>Product Value in Use: {{selectedProduct.useProductMinValue}}</p>
-            <table class="table">
-                <tr>
-                    <th>Stock Name/Description</th>
-                    <th>Quantity</th>
-                    <th>Stock Value</th>
-                    <th>Created</th>
-                    <th>Updated</th>
-                </tr>
-                <tr v-for="(stock, index) in selectedProduct.stock">
-                    <td><input class="input" v-model="stock.stockName" /></td>
-                    <td><input class="input" v-model.number="stock.qty" /></td>
-                    <td v-if="usingProductMinValue">
-                        <input class="input" disabled v-model.number="stock.stockValue" />
-                    </td>
-                    <td v-else>
-                        <input class="input" v-model.number="stock.stockValue" />
-                    </td>
-                    <td><input class="input" v-model="stock.createdDate" /></td>
-                    <td><input class="input" v-model="stock.updatedDate" /></td>
-                    <td><a class="has-text-danger" @@click="deleteStock(stock.id, index)">Delete</a></td>
-                </tr>
-            </table>
-            <a class="button is-warning" @@click="updateStock">Update Stock</a>
-            <a class="button" @@click="cancel">Cancel</a>
-        </div>
+    </div>
+    <div v-else>
+        <div class="columns">
+            <div class="column is-9" v-if="selectedProduct">
+                <h2 class="title">Update Existing Stock</h2>
+                <h3 class="subtitle">{{selectedProduct.name}}</h3>
+                <p>Product Value in Use: {{selectedProduct.useProductMinValue}}</p>
+                <table class="table">
+                    <tr>
+                        <th>Stock Name/Description</th>
+                        <th>Quantity</th>
+                        <th>Stock Value</th>
+                        <th>Created</th>
+                        <th></th>
+                    </tr>
+                    <tr v-for="(stock, index) in selectedProduct.stock">
+                        <td><input class="input" v-model="stock.stockName" /></td>
+                        <td><input class="input" v-model.number="stock.qty" /></td>
+                        <td v-if="usingProductMinValue">
+                            <input class="input" disabled v-model.number="stock.stockValue" />
+                        </td>
+                        <td v-else>
+                            <input class="input" v-model.number="stock.stockValue" />
+                        </td>
+                        <td><input class="input" v-model="stock.createdDate" /></td>
+                        <td><a class="button is-small is-danger" @@click="deleteStock(stock.id, index)">Delete</a></td>
+                    </tr>
+                </table>
+                <a class="button is-warning" @@click="updateStock">Update Stock</a>
+                <a class="button" @@click="cancel">Cancel</a>
+            </div>
 
-        <div class="column is-3" v-if="selectedProduct">
-            <h2 class="title">New Stock</h2>
-            <div class="field-label is-normal">
-                <label class="label">Stock Name / Description</label>
-            </div>
-            <div class="field-body">
-                <div class="field">
-                    <div class="control">
-                        <input class="input" v-model="newStock.stockName" />
-                    </div>
+            <div class="column is-3" v-if="selectedProduct">
+                <h2 class="title">New Stock</h2>
+                <div class="field-label is-normal">
+                    <label class="label">Stock Name / Description</label>
                 </div>
-            </div>
-            <div class="field-label is-normal">
-                <label class="label">Quantity</label>
-            </div>
-            <div class="field-body">
-                <div class="field">
-                    <div class="control">
-                        <input class="input" v-model.number="newStock.qty" />
-                    </div>
-                </div>
-            </div>
-            <div class="field-label is-normal">
-                <label class="label">Stock Value</label>
-            </div>
-            <div v-if="usingProductMinValue">
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" disabled v-model.number="newStock.stockValue" />
+                            <input class="input" v-model="newStock.stockName" />
                         </div>
                     </div>
                 </div>
-            </div>
-            <div v-else>
+                <div class="field-label is-normal">
+                    <label class="label">Quantity</label>
+                </div>
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input" v-model.number="newStock.stockValue" />
+                            <input class="input" v-model.number="newStock.qty" />
                         </div>
                     </div>
                 </div>
+                <div class="field-label is-normal">
+                    <label class="label">Stock Value</label>
+                </div>
+                <div v-if="usingProductMinValue">
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" disabled v-model.number="newStock.stockValue" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-else>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" v-model.number="newStock.stockValue" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="button is-success" @@click="addStock">Add</a>
             </div>
-            
-            <a class="button is-success" @@click="addStock">Add</a>
         </div>
     </div>
 </div>

@@ -25,7 +25,7 @@
                             <label class="label">Price</label>
                         </div>
                         <div class="field-body">
-                            <label class="label is-large">@Model.Product.MinValue</label>
+                            <label class="label is-large"> Starting at @Model.Product.MinValue</label>
                         </div>
                     </div>
                     <form method="post">
@@ -41,7 +41,7 @@
                                                 @foreach (var stock in Model.Product.Stock)
                                                 {
                                                     bool disabled = stock.Qty <= 0;
-                                                    <option value="@stock.Id" disabled="@disabled">@stock.StockName</option>
+                                                    <option value="@stock.Id" disabled="@disabled">@stock.StockName - @stock.StockValue</option>
                                                 }
                                             </select>
                                         </div>
@@ -49,6 +49,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="field is-horizontal">
                             <div class="field-label is-normal">
                                 <label class="label">Quantity</label>
@@ -56,8 +57,8 @@
                             <div class="field-body">
                                 <div class="field is-narrow">
                                     <div class="control">
-                                        <input class="input" type="text" asp-for="CartViewModel.Qty" value="1"/>
-                                        @foreach(var stock in Model.Product.Stock)
+                                        <input class="input" type="text" asp-for="CartViewModel.Qty" value="1" />
+                                        @foreach (var stock in Model.Product.Stock)
                                         {
                                             if (stock.Qty <= 5)
                                             {
@@ -70,6 +71,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="field is-horizontal">
                             <div class="field-label">
                             </div>

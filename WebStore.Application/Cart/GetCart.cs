@@ -18,10 +18,10 @@ namespace WebStore.Application.Cart
             return _sessionManager.GetCart(x => new Response
             {
                 Name = x.ProductName,
-                MinValue = x.MinValue,
-                ValueAsString = x.MinValue.GetValueAsString(),
+                Value = x.Value,
+                ValueAsString = x.Value.GetValueAsString(),
                 ProductImage = x.ProductImage,
-                    Qty = x.Qty,
+                Qty = x.Qty,
                 StockId = x.StockId,
                 StockName = x.StockName
             }) ;
@@ -30,7 +30,7 @@ namespace WebStore.Application.Cart
         public class Response
         {
             public string Name { get; set; }
-            public decimal MinValue { get; set; }
+            public decimal Value { get; set; }
             public string ValueAsString { get; set; }
             public string ProductImage { get; set; }
             public int Qty { get; set; }

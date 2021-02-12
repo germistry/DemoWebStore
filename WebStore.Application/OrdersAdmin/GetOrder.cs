@@ -36,7 +36,7 @@ namespace WebStore.Application.OrdersAdmin
                     Qty = y.Qty,
                     StockName = y.Stock.StockName
                 }),
-                TotalValue = x.OrderStocks.Sum(y => y.Stock.Product.MinValue * y.Qty).ToString("N2")
+                TotalValue = x.OrderStocks.Sum(y => y.Stock.StockValue * y.Qty).ToString("N2")
             }); 
 
         public class Response

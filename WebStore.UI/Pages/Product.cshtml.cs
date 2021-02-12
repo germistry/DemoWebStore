@@ -32,7 +32,7 @@ namespace WebStore.UI.Pages
             if (stockAdded)
                 return RedirectToPage("/Cart");
             else
-                //TODO Add warning that stock unavailable 
+                //TODO 1 Add warning that stock unavailable 
                 return Page();
         }
     }
