@@ -1,7 +1,7 @@
 # DemoWebStore - An ASP.NET Core Web Store Template
-This is a demo ASP.NET Core Web Store that uses Bulma, Vue and a common payment provider. This demo has it's logic separated into domain, database, application and UI layers following
-the single responsibility principle so that it can be scaled as necessary. I can use this demo as a starting point or as a boilerplate solution to significantly cut down on development
-time of a web store project for a client.
+This is a demo ASP.NET Core Web Store that uses Bulma 0.9.1, Vue and a common payment provider. This demo has it's logic separated into domain, database, application and UI layers 
+following the single responsibility principle so that it can be scaled as necessary. I use this demo as a starting point or as a boilerplate solution to significantly cut down on 
+development time of a web store project for a client.
 
 ### The Domain
 Contains the models, enums and service interfaces. Built on NET Standard 2.1 framework and has no other dependencies. 
