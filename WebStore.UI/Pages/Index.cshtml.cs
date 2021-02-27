@@ -7,10 +7,10 @@ namespace WebStore.UI.Pages
 {
     public class IndexModel : PageModel
     {
-        public IEnumerable<GetProducts.ProductViewModel> Products { get; set; }
-        public void OnGet([FromServices] GetProducts getProducts)
+        public IEnumerable<GetFeaturedProducts.ProductViewModel> Products { get; set; }
+        public void OnGet([FromServices] GetFeaturedProducts getFeaturedProducts)
         {
-            Products = getProducts.Action();
+            Products = getFeaturedProducts.Action();
         }
         
     }

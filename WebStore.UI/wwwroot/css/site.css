@@ -19,10 +19,14 @@
     background-color: #fefde5 !important;
 }
 
-/*----------Public Site CSS------------*/
+/*----------Bulma Utility Exts---------*/
 
-html,
-body {
+.mx-8 {
+    margin-left: 4rem !important;
+    margin-right: 4rem !important;
+}
+/*----------Public Site CSS------------*/
+html, body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -50,3 +54,7 @@ body {
     .has-equal-height .card-footer {
         margin-top: auto;
     }
+
+.footer {
+    padding: 3rem 1.5rem 3rem;
+}

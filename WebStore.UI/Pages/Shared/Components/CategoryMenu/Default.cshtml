@@ -1,0 +1,15 @@
+﻿@model IEnumerable<WebStore.Application.Products.GetCategoryMenu.CategoryViewModel>
+@{
+    var base_path = Context.Request.PathBase;
+}
+
+<div class="navbar-dropdown">
+    @foreach (var category in Model) 
+    { 
+        <a class="navbar-item" asp-page="Category" asp-route-name="@category.CategoryName.Replace(" ", "-")">
+                @category.CategoryName
+        </a>
+    }
+    <hr class="navbar-divider">
+    <a class="navbar-item" asp-page="/AllProducts">All Products</a>
+</div>

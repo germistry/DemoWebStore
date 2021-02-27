@@ -19,7 +19,7 @@ namespace WebStore.Application.CategoriesAdmin
 
         public async Task<Response> ActionAsync(Request request)
         {
-            var category = new Category
+            var category = new Domain.Models.Category
             {
                 CategoryName = request.CategoryName,
                 OGTags = request.OGTags,

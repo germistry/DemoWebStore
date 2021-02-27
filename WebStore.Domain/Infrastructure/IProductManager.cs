@@ -13,5 +13,6 @@ namespace WebStore.Domain.Infrastructure
         TResult GetProductById<TResult>(int id, Func<Product, TResult> selector);
         TResult GetProductByName<TResult>(string name, Func<Product, TResult> selector);
         IEnumerable<TResult> GetProductsWithStock<TResult>(Func<Product, TResult> selector);
+        IEnumerable<TResult> GetProductsWithStockTop6<TResult>(Func<Product, TResult> selector);
     }
 }

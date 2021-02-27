@@ -1,37 +1,34 @@
-﻿@page
-@model IndexModel
+﻿@page "{name}"
+@model CategoryModel
 @{
-    ViewData["Title"] = "Home page";
+
+    ViewData["Title"] = Model.Category.CategoryName;
     var base_path = Request.PathBase;
+    var card_image_path = $"{base_path}/CategoryImage/{Model.Category.Image}";
 }
 
-<section class="hero is-medium is-light is-bold">
-    <div class="hero-body">
-        <div class="container">
-            <h1 class="title">
-                Welcome to the Seed Shop
-            </h1>
-            <h2 class="subtitle">
-                Get all your garden seeds here. Veggies, fruit, pulses, flowers ... plus everything else for a sustainable food garden!
-            </h2>
+
+<div class="container">
+    <div class="columns">
+        <div class="column is-6">
+            <figure class="image">
+                <img src="@card_image_path" />
+            </figure>
         </div>
-    </div>
-</section>
 
-<section class="feature">
-    <div class="container">
-        <h2 class="title has-text-centered-mobile mx-8 mt-5 has-text-success">Latest Seeds Added to Our Catalogue</h2>
-
-        <div class="columns is-multiline mx-6">
-            @foreach (var p in Model.Products)
+        <div class="column is-6">
+            <h2 class="title">@Model.Category.CategoryName</h2>
+            <p class="subtitle">@Model.Category.Description</p>
+            <p>Extended Description - There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+            @foreach (var p in Model.Category.Product)
             {
-                var card_image_path = $"{base_path}/ProductImage/{p.Image}";
+                var product_card_image_path = $"{base_path}/ProductImage/{p.Image}";
                 var logo_image_path = $"{base_path}/ProductLogoImage/{p.Image}";
                 <div class="column is-4-desktop is-6-tablet is-12-mobile">
                     <div class="card has-equal-height">
                         <div class="card-image">
                             <figure class="image is-4by3">
-                                <img src="@card_image_path" alt="Example card image">
+                                <img src="@product_card_image_path" alt="Example card image">
                             </figure>
                         </div>
                         <div class="card-content">
@@ -48,19 +45,22 @@
                             </div>
                             <div class="content">
                                 <p class="subtitle is-6">@p.Description</p>
-                                @{if (p.StockCount == 0)
+                                <!-- need to add Stock into the products for categories to show stock levels
+                                //@{ //if (p.StockCount == 0)
                                     {
                                         <div class="notification is-paddingless has-text-centered is-danger">
                                             Out of Stock
                                         </div>
                                     }
-                                    else if (p.StockCount <= 5)
+                                     //else if (p.StockCount <= 5)
                                     {
                                         <div class="notification is-paddingless has-text-centered is-warning">
                                             Low on Stock
                                         </div>
                                     }
                                 }
+
+                                    -->
                                 <div class="buttons">
                                     <a class="button is-warning" asp-page="Product" asp-route-name="@p.Name.Replace(" ", "-")">View Product</a>
                                     <a class="button is-success" asp-page="Product" asp-route-name="@p.Name.Replace(" ", "-")">Add to Cart</a>
@@ -74,6 +74,4 @@
 
         </div>
     </div>
-</section>
-
-
+</div>

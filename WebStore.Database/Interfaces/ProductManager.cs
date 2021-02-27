@@ -56,10 +56,20 @@ namespace WebStore.Database.Interfaces
         {
             return _context.Products
                 .Include(x => x.Stock).AsEnumerable()
+                .OrderByDescending(d => d.CreatedDate)
                 .Select(selector)
                 .ToList();
         }
 
-        
+        public IEnumerable<TResult> GetProductsWithStockTop6<TResult>(Func<Product, TResult> selector)
+        {
+            return _context.Products
+                .Include(x => x.Stock).AsEnumerable()
+                .OrderByDescending(d => d.CreatedDate)
+                .Select(selector)
+                .Take(6)
+                .ToList();
+        }
+
     }
 }
