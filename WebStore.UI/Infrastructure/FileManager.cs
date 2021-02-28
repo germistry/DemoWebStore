@@ -39,8 +39,8 @@ namespace WebStore.UI.Infrastructure
         };
         private ProcessImageSettings CategoryImageOptions() => new ProcessImageSettings
         {
-            Width = 256,
-            Height = 256,
+            Width = 512,
+            Height = 512,
             ResizeMode = CropScaleMode.Crop,
             SaveFormat = FileFormat.Jpeg,
             JpegQuality = 100,

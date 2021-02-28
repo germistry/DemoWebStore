@@ -59,13 +59,22 @@
                         {
                             @if (SignInManager.IsSignedIn(User))
                             {
-                                <a class="button is-primary" asp-area="" asp-page="/Admin/Index">Admin</a>
-                                <a class="button is-light" asp-controller="Account" asp-action="LogOut">Sign Out</a>
+                                <a class="button is-primary" asp-area="" asp-page="/Admin/Index">
+                                    <span class="icon"><i class="fas fa-tools"></i></span>
+                                    <span>Admin Panel</span>
+                                </a>
+                                <a class="button is-light" asp-controller="Account" asp-action="LogOut">
+                                    <span class="icon"><i class="fas fa-sign-out-alt"></i></span>    
+                                    <span>Sign Out</span>
+                                </a>
                             }
                         }
                         else
                         {
-                            <a class="button is-primary" asp-area="" asp-page="/Accounts/Login"><strong>Sign In</strong></a>
+                            <a class="button is-primary" asp-area="" asp-page="/Accounts/Login">
+                                <span class="icon"><i class="fas fa-user"></i></span>
+                                <span><strong>Sign In</strong></span>
+                            </a>
                         }
                     </div>
                 </div>
@@ -92,7 +101,6 @@
     <environment include="Production">
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-
 
     @RenderSection("Scripts", required: false)
 </body>

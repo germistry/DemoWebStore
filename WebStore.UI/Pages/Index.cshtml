@@ -4,6 +4,95 @@
     ViewData["Title"] = "Home page";
     var base_path = Request.PathBase;
 }
+<!--  Welcome Banner -->
+<section class="welcome-banner is-medium is-light is-bold">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-multiline">
+                <div class="column is-12-mobile is-12-touch is-6-tablet is-6-desktop is-6-widescreen">
+                    <h1 class="title">
+                        Welcome to the Seed Shop!
+                    </h1>
+                    <h2 class="subtitle">
+                        Get all your garden seeds here. Veggies, fruit, pulses, flowers ... plus everything else for a sustainable food garden!
+                    </h2>
+                </div>
+                <div class="column is-12-mobile is-12-touch is-6-tablet is-6-desktop is-6-widescreen">
+                    <form method="post">
+                        <div class="field has-addons">
+                            <div class="control">
+                                <input class="input is-success" type="text" placeholder="Search products..">
+                            </div>
+                            <div class="control">
+                                <a class="button is-success">
+                                    <i class="fas fa-search"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="buttons social-icons">
+                        Connect with us &emsp;
+                        <a class="button is-primary is-inverted"><i class="fab fa-facebook-square"></i></a>
+                        <a class="button is-primary is-inverted"><i class="fab fa-twitter-square"></i></a>
+                        <a class="button is-primary is-inverted"><i class="fab fa-instagram"></i></a>
+                        <a class="button is-success">
+
+                            <span>Read Our Blog&ensp;</span>
+                            <span><img src="~/images/squareLogo.png" width="24" height="24"></span>
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Start Hero Carousel -->
+<section class="carousel">
+    <button class="carousel__button carousel__button--left hide-chevron">
+        <i class="fas fa-chevron-circle-left"></i>
+    </button>
+    <div class="carousel__track-container">
+        <ul class="carousel__track">
+            @foreach (var c in Model.Categories)
+            {
+                var category_image_path = $"{base_path}/CategoryImage/{c.Image}";
+                <li class="carousel__slide">
+                    <div class="carousel__slide-container">
+                        <a asp-page="Category" asp-route-name="@c.CategoryName.Replace(" ", "-")">
+                            <div class="carousel__text-background">
+                                <h1 class="title is-size-1-tablet carousel__h1">Shop Now</h1>
+                                <h3 class="subtitle is-size-2-tablet is-uppercase has-text-weight-semibold carousel__h3">@c.CategoryName</h3>
+                            </div>
+                            <img class="carousel__image" src="@category_image_path" alt="" />
+                        </a>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+    <button class="carousel__button carousel__button--right">
+        <i class="fas fa-chevron-circle-right"></i>
+    </button>
+    <div class="carousel__nav">
+        <button class="carousel__indicator current-slide">
+            <i class="fas fa-circle"></i>
+        </button>
+        @{
+            int i = 0;
+            while (i < Model.Categories.Count() - 1)
+            {
+                i += 1;
+                <button class="carousel__indicator">
+                    <i class="fas fa-circle"></i>
+                </button>
+            };
+        }
+    </div>
+</section>
+<!-- End Hero Carousel -->
 
 <section class="hero is-medium is-light is-bold">
     <div class="hero-body">
@@ -75,5 +164,6 @@
         </div>
     </div>
 </section>
+
 
 
